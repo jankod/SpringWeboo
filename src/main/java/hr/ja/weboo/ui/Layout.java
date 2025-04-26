@@ -23,27 +23,19 @@ public class Layout {
 
         String body = WebooUtil.widgetToHtml(page.getWidgets());
 
-        // napravi od svih widget-e js const elementsIds = ['id1', 'id2', 'id3'];
 
-        List<String> ids = page.getWidgets().stream()
-                .map(Widget::getWidgetId)
-                .toList();
-
-
-        String callerInfoJson = "";
+        String scriptCode = "";
         if (WebooUtil.isDebug()) {
-            callerInfoJson = "const CALLER_INFO = " + WebooUtil.toJson(page.getWidgets().stream()
+            String callerInfoJson = "";
+            callerInfoJson = "const WEBOO_WIDGETS_INFO = " + WebooUtil.toJson(page.getWidgets().stream()
                     .map(Widget::get_callerInfo)
                     .toList()) + ";";
+            scriptCode = """
+                    <script>
+                        %s
+                    </script>
+                    """.formatted(callerInfoJson);
         }
-
-        String jsWidgetEmements = """
-                <script>
-                    const elementsIds = %s;
-                    %s
-                </script>
-                """.formatted(WebooUtil.toJson(ids), callerInfoJson);
-
         //language=HTML
         String html = """
                 <html lang="en">
@@ -53,7 +45,7 @@ public class Layout {
                     <title>{title}</title>
                         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
                     <link rel="stylesheet" href="all.css">
-                    {jsWidgetEmements.raw}
+                    {scriptCode.raw}
                 </head>
                 </head>
                 <body>
@@ -65,7 +57,7 @@ public class Layout {
                     <script src="all.js"></script>
                 </body>
                 </html>""";
-        return WebooUtil.quteMap(html, Map.of("body", body, "title", title, "jsWidgetEmements", jsWidgetEmements));
+        return WebooUtil.quteMap(html, Map.of("body", body, "title", title, "scriptCode", scriptCode));
     }
 
 }
