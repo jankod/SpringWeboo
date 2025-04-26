@@ -1,5 +1,7 @@
 package hr.ja.weboo.db;
 
+import hr.ja.weboo.model.Address;
+import hr.ja.weboo.model.User;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 

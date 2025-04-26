@@ -1,23 +1,14 @@
-package hr.ja.weboo.model;
+package hr.ja.weboo.ui.widgets;
 
 
-import hr.ja.weboo.pages.Widget;
 import hr.ja.weboo.utils.WebooUtil;
-import io.quarkus.qute.Qute;
 import lombok.Data;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 @Data
 public class Breadcrumb extends Widget {
-
-    // ocu mapu koja pamtri redosljed
-    // navigacijskih linkova
-    // i njihovih URL-ova
-    // npr. /home -> Home
-    // /home/novi -> Novi
 
     private Map<String, String> navLinks = new LinkedHashMap<>();
 
@@ -29,7 +20,7 @@ public class Breadcrumb extends Widget {
     public String toHtml() {
 
         String template = """
-                <nav aria-label="breadcrumb">
+                <nav aria-label="breadcrumb" id="{id}" class="{class}">
                   <ol class="breadcrumb">
                     {#each navLinks.entrySet() navLink}
                       {#if navLink_count == navLinks.size()}
@@ -42,6 +33,9 @@ public class Breadcrumb extends Widget {
                 </nav>
                 """;
 
-        return WebooUtil.qute(template, Map.of("navLinks", navLinks));
+        return WebooUtil.quteMap(template,
+                Map.of("navLinks", navLinks,
+                        "id", getWidgetId(),
+                        "class", getClasses()));
     }
 }

@@ -10,30 +10,8 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.util.List;
 
 
-@Configuration
-@RequiredArgsConstructor
+//@Configuration
+//@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
-
-    //private final CompHtmlConverter compHtmlConverter;
-
-//    private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
-
-//    private final PageReturnValueHandler pageReturnValueHandler;
-
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-    }
-
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-
-    }
-
-
-    // za sve controllere
-
-//        registry.addInterceptor(new RenderingInterceptor())
-//                .addPathPatterns("/**");
 
 }

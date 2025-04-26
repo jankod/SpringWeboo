@@ -1,19 +1,39 @@
-package hr.ja.weboo.model;
+package hr.ja.weboo.ui;
 
-import hr.ja.weboo.pages.Page;
+import hr.ja.weboo.ui.widgets.Widget;
+import hr.ja.weboo.utils.CallerInfo;
+import hr.ja.weboo.utils.WebooUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.View;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public abstract class AbstractPage extends Page implements View {
 
+@Slf4j
+@Data
+public abstract class AbstractPage implements View {
+
+    private List<Widget> widgets = new ArrayList<>();
+
+    public <T extends Widget> T add(T widget) {
+        widgets.add(widget);
+        if (WebooUtil.isDebug()) {
+            CallerInfo callerInfo = WebooUtil.getCallerInfo();
+            callerInfo.setWidgetId(widget.getWidgetId());
+            widget.set_callerInfo(callerInfo);
+            log.debug("Caller info: {}", callerInfo);
+        }
+        return widget;
+    }
+
+    public void dump(Object u) {
+        String json = WebooUtil.toJson(u);
+    }
 
     @Override
     public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {

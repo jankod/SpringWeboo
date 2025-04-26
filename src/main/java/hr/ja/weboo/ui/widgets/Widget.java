@@ -1,7 +1,7 @@
-package hr.ja.weboo.pages;
+package hr.ja.weboo.ui.widgets;
 
+import hr.ja.weboo.utils.CallerInfo;
 import hr.ja.weboo.utils.WebooUtil;
-import hr.ja.weboo.utils.WidgetUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -17,10 +17,11 @@ import java.util.List;
 public abstract class Widget {
 
     private String widgetId = WebooUtil.wigetNewId(this.getClass());
-    private String classes = "";
+    private StringBuilder classes = new StringBuilder();
     private String style = "";
     private final List<Widget> children = new ArrayList<>();
-//    private final List<DualSideEvent> dualSideEvents = new ArrayList<>();
+
+    private CallerInfo _callerInfo = null;
 
     public Widget(Widget... widgets) {
         addAll(widgets);
@@ -40,24 +41,19 @@ public abstract class Widget {
     }
 
     public String toChildrenHtml() {
-        return WidgetUtil.widgetToHtml(getChildren());
+        return WebooUtil.widgetToHtml(getChildren());
     }
 
-//    public DualSideEvent on(String eventName) {
-//        DualSideEvent clientEvent = new DualSideEvent(eventName, widgetId);
-//        dualSideEvents.add(clientEvent);
-//        return clientEvent;
-//    }
-
-    public void addClass(String classes) {
-        this.classes += " " + classes;
+    public Widget addClass(String classes) {
+        this.classes.append(classes);
+        return this;
     }
 
     public abstract String toHtml();
 
     protected String getIdClassStyleAttr() {
         return paramValue("id", getWidgetId())
-               + paramValue("class", getClasses())
+               + paramValue("class", getClasses().toString())
                + paramValue("style", getStyle());
     }
 
@@ -74,5 +70,6 @@ public abstract class Widget {
     public boolean hasChildren() {
         return !children.isEmpty();
     }
+
 
 }

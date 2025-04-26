@@ -1,6 +1,6 @@
 package hr.ja.weboo.utils;
 
-import hr.ja.weboo.pages.Widget;
+import hr.ja.weboo.ui.widgets.Widget;
 import io.quarkus.qute.Expression;
 import io.quarkus.qute.ResultMapper;
 import io.quarkus.qute.TemplateNode;

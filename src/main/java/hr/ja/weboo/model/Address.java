@@ -1,9 +1,8 @@
-package hr.ja.weboo.db;// Primjer drugog entiteta: Address
+package hr.ja.weboo.model;// Primjer drugog entiteta: Address
 
+import hr.ja.weboo.db.InMemoryEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List; // Ako Address ima vezu natrag na User, nećemo je ovdje modelirati za jednostavnost
 
 @Data
 @NoArgsConstructor

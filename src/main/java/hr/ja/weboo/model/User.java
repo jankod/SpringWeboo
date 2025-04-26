@@ -1,8 +1,8 @@
-package hr.ja.weboo.db;
+package hr.ja.weboo.model;
 
+import hr.ja.weboo.db.InMemoryEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;

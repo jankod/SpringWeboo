@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>hr.ja</groupId>
-    <artifactId>weboo</artifactId>
+    <artifactId>SpringWeboo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>SpringWebooDemo1</name>
     <description>SpringWebooDemo1</description>

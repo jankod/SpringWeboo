@@ -1,17 +1,25 @@
 package hr.ja.weboo.pages;
 
-import hr.ja.weboo.model.AbstractPage;
-import hr.ja.weboo.model.Layout;
-import hr.ja.weboo.widgets.Button;
+import hr.ja.weboo.ui.BasePage;
+import hr.ja.weboo.ui.Layout;
+import hr.ja.weboo.ui.widgets.Button;
+import hr.ja.weboo.ui.widgets.Link;
 
-public class UserPage extends AbstractPage {
+import java.nio.file.Paths;
 
-    public UserPage() {
-        setTitle("User Page");
-    }
+public class UserPage extends BasePage {
+
 
     @Override
     protected void render(Layout layout) {
+        layout.setTitle("User");
         add(new Button("Click Me"));
+
+
+
+        Link debugLink = new Link("ddebug","dsads");
+        add(debugLink);
     }
+
+
 }
