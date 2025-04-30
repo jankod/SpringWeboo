@@ -3,22 +3,16 @@ let _lastPopover = null;
 function showPopover(element, widgetInfo) {
     hidePopover(element);
     const popover = new bootstrap.Popover(element, {
-        title: 'Informacije iz JS-a', // Naslov postavljen iz JS-a
-
-        // napravi link sa widgetInfo.debugLink
-        content: `<a href="${widgetInfo.debugLink}" target="_blank"> ${widgetInfo.widgetId} </a>`,
-        placement: 'right', // Gde da se prikaže u odnosu na element (top, bottom, left, right, auto)
-        trigger: 'manual', // Manualno upravljanje prikazom
-        html: true, // Da li da se tretira sadržaj kao HTML
-
-        delay: { show: 0, hide: 1000 }, // Odloži skrivanje popovera
-        // container: 'body'     // Opciono: prikaži popover na nivou body-ja da izbegne probleme sa pozicioniranjem unutar uskih elemenata
+        title: widgetInfo.widgetName,
+        content: `<a class="btn btn-link" href="${widgetInfo.debugLink}" target="_blank"> ${widgetInfo.widgetId} </a>`,
+        placement: 'right',
+        trigger: 'manual',
+        html: true,
+       // delay: {show: 0, hide: 100},
     });
     _lastPopover = popover;
     popover.show();
 
-
-    console.log("show popover");
 }
 
 function hidePopover(element) {
@@ -29,14 +23,6 @@ function hidePopover(element) {
 }
 
 
-// function hideCustomDebugTooltip() {
-//     const tooltip = document.getElementById('custom-debug-tooltip');
-//     if (tooltip) {
-//         tooltip.parentNode.removeChild(tooltip);
-//     }
-// }
-
-
 /**
  * @param widgetsInfo arrays of objects with id and name
  */
@@ -44,7 +30,7 @@ function addHoverEffect(widgetsInfo) {
     widgetsInfo.forEach(w => {
         console.log("Widget info", w);
         const element = document.getElementById(w.widgetId);
-        if(!element) {
+        if (!element) {
             console.error("Element with id " + w.widgetId + " not found");
             return;
         }
@@ -61,29 +47,23 @@ function addHoverEffect(widgetsInfo) {
             element.addEventListener('mouseout', () => {
                 element.style.border = '2px solid transparent';
                 // hideCustomDebugTooltip();
-              //  hidePopover(element);
+                //  hidePopover(element);
             });
         }
     });
 }
 
-// Dodaj globalni event listener za skrivanje tooltip-a
-// document.addEventListener('mouseover', (event) => {
-//     if (!event.target.closest('[id]')) {
-//         hideCustomDebugTooltip();
-//     }
-// });
 
 function initDebug() {
-
-    addHoverEffect(WEBOO_WIDGETS_INFO);
-    // Dodaj globalni event listener za klik izvan popovera
-    document.addEventListener('click', (event) => {
-        if (_lastPopover && !event.target.closest('.popover') && !event.target.hasAttribute('id')) {
-            _lastPopover.hide();
-            _lastPopover = null;
-        }
-    });
+    if (WEBOO_WIDGETS_INFO) {
+        addHoverEffect(WEBOO_WIDGETS_INFO);
+        document.addEventListener('click', (event) => {
+            if (_lastPopover && !event.target.closest('.popover') && !event.target.hasAttribute('id')) {
+                _lastPopover.hide();
+                _lastPopover = null;
+            }
+        });
+    }
 
 }
 

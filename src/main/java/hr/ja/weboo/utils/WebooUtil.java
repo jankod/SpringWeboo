@@ -11,14 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.util.HtmlUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.*;
@@ -29,14 +24,11 @@ public class WebooUtil {
 
     public static final Mode mode = Mode.DEV;
 
-    public static CallerInfo getCallerInfo() {
+    public static CallerInfo getCallerInfo(int depth) {
         // Class<?> source = org.slf4j.helpers.Util.getCallingClass();
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        if (stackTrace.length < 3) {
-            return null;
-        }
-        StackTraceElement caller = stackTrace[3];
+        StackTraceElement caller = stackTrace[depth];
         String className = caller.getClassName();
         String methodName = caller.getMethodName();
         int lineNumber = caller.getLineNumber();
@@ -293,11 +285,13 @@ public class WebooUtil {
         }
         StringBuilder html = new StringBuilder();
         for (Widget widget : widgets) {
+            if (WebooUtil.isDebug()) {
+                String comment = "<!-- " + widget.getClass().getSimpleName() + " id: " + widget.widgetId() + " --> ";
+                html.append(comment).append("\n");
+            }
             String widgetHtml = widget.toHtml();
-//            if (WebooUtil.isDebug()) {
-//                widgetHtml = wrapWithDebug(widgetHtml);
-//            }
             html.append(widgetHtml).append("\n");
+
         }
 
 

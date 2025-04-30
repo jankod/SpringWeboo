@@ -1,13 +1,16 @@
 package hr.ja.weboo.ui.widgets;
 
+import hr.ja.weboo.ui.DefaultWidget;
 import hr.ja.weboo.utils.WebooUtil;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Data
-@Accessors(fluent = true)
-public class Button extends Widget {
+@EqualsAndHashCode(callSuper = true)
+//@Accessors()
+public class Button extends DefaultWidget {
     private final String label;
 
     private Color color = Color.PRIMARY;
@@ -19,16 +22,13 @@ public class Button extends Widget {
     @Override
     public String toHtml() {
         addClass("btn btn-" + color.toCssClass());
-        //language=HTML
+
         String html = """
-                <button type="button" class="{classes}" id='{id}'>
-                    {label}
+                <button type="button" class="${classes}"  id="${widgetId}">
+                    ${label}
                 </button>
                 """;
-        return WebooUtil.quteKeyValue(html,
-                "classes", getClasses(),
-                "id", getWidgetId(),
-                "label", label);
+        return WebooUtil.quteThis(html, this);
     }
 
     public static void main(String[] args) {

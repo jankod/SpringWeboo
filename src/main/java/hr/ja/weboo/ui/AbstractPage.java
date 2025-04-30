@@ -1,7 +1,6 @@
 package hr.ja.weboo.ui;
 
 import hr.ja.weboo.ui.widgets.Widget;
-import hr.ja.weboo.utils.CallerInfo;
 import hr.ja.weboo.utils.WebooUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,27 +8,21 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.View;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Slf4j
 @Data
 public abstract class AbstractPage implements View {
 
-    private List<Widget> widgets = new ArrayList<>();
+    private String pageId = WebooUtil.createPageId();
 
-    public <T extends Widget> T add(T widget) {
-        widgets.add(widget);
-        if (WebooUtil.isDebug()) {
-            CallerInfo callerInfo = WebooUtil.getCallerInfo();
-            callerInfo.setWidgetId(widget.getWidgetId());
-            widget.set_callerInfo(callerInfo);
-            log.debug("Caller info: {}", callerInfo);
-        }
-        return widget;
-    }
+    protected String title = "";
+
+    // private List<Widget> widgets = new ArrayList<>();
+
 
     public void dump(Object u) {
         String json = WebooUtil.toJson(u);
@@ -39,18 +32,33 @@ public abstract class AbstractPage implements View {
     public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
-        Layout layout = new Layout();
-        layout.setModel(model);
-        layout.setRequest(request);
-        layout.setResponse(response);
 
-        render(layout);
-        response.getWriter().write(layout.toHtml(this));
+        WebPageContext web = new WebPageContext();
+        web.setModel(model);
+        web.setRequest(request);
+        web.setResponse(response);
+        render(web);
+
+
+        Layout layout = new Layout();
+
+        LinkedList<Widget> pageWidgets = web.getWidgets();
+        if (WebooUtil.isDebug()) {
+
+            // add before and after widget html comment with widget id and name
+            for (Widget widget : pageWidgets) {
+
+                String comment = "<!-- " + widget.getClass().getSimpleName() + " id: " + widget.widgetId() + " --> ";
+                String html = pageWidgets.stream().map(Widget::toHtml).collect(Collectors.joining(comment));
+            }
+        }
+
+        String html = layout.toHtml(web, this);
+
+        response.getWriter().write(html);
     }
 
-    protected void render(Layout layout) {
-        //return "No implemented toHtml() method in " + this.getClass().getName();
-        //layout.setTitle("No implemented toHtml() method in " + this.getClass().getName());
+    protected void render(WebPageContext webPageContext) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 }

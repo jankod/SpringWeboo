@@ -9,6 +9,7 @@ public class CallerInfo {
     String methodName;
     String widgetId;
     String debugLink;
+    String widgetName;
 
     public CallerInfo(String className, String methodName, int lineNumber) {
         this.className = className;

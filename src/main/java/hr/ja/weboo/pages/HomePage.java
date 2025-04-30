@@ -1,34 +1,47 @@
 package hr.ja.weboo.pages;
 
-import hr.ja.weboo.ui.AbstractPage;
-import hr.ja.weboo.ui.BasePage;
-import hr.ja.weboo.ui.Layout;
-import hr.ja.weboo.ui.widgets.Breadcrumb;
-import hr.ja.weboo.ui.widgets.Button;
-import hr.ja.weboo.ui.widgets.Color;
+import hr.ja.weboo.ui.*;
+import hr.ja.weboo.ui.widgets.Div;
+import hr.ja.weboo.ui.widgets.H3;
+import hr.ja.weboo.ui.widgets.Link;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
+import static j2html.TagCreator.h1;
+
 @Slf4j
 @Data
 @EqualsAndHashCode(callSuper = true)
+public class HomePage extends BasePageLayout {
 
-public class HomePage extends BasePage {
-
+    public static final String URL = "/";
 
     @Override
-    protected void render(Layout layout) {
-        log.debug("debug");
-        layout.setTitle("home page");
+    protected HeadComponent createHead() {
+        HeadComponent h = super.createHead();
+        return h;
+    }
 
-        Breadcrumb breadcrumb = new Breadcrumb();
-        breadcrumb.addLink("Home", "/");
-        breadcrumb.addLink("About", "/about");
-        breadcrumb.addLink("Contact", "/contact");
-        add(breadcrumb);
+    @Override
+    protected void renderContent(WebPageContext web) {
+        title = "Home Page";
+        addTop(web, "Ovo je header iz home page");
 
-        add(new Button("Click Me").color(Color.INFO));
+        addBody(web, "Ovo je body iz home page");
+
+        web.add(new Link("User Page", UserPage.URL));
+
+    }
+
+    private void addBody(WebPageContext web, String text) {
+        web.add(new Div(text));
+    }
+
+    private void addTop(WebPageContext web, String text) {
+        H3 header = new H3(text);
+        header.addClass("header");
+        web.add(header);
     }
 
 }

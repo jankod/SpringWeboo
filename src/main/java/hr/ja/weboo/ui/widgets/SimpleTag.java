@@ -1,5 +1,6 @@
 package hr.ja.weboo.ui.widgets;
 
+import hr.ja.weboo.ui.CompositeWidget;
 import hr.ja.weboo.utils.WebooUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,12 +11,12 @@ import java.util.Objects;
 
 @Setter
 @Getter
-public class SimpleTag extends Widget {
+public class SimpleTag extends CompositeWidget  {
 
     private final String tag;
     private String text = "";
 
-    private final Map<String, Object> attributes = new HashMap<>();
+    private final Map<String, String> attributes = new HashMap<>();
 
     public SimpleTag(String tag, String text) {
         this.tag = tag;
@@ -23,9 +24,11 @@ public class SimpleTag extends Widget {
     }
 
     public SimpleTag(String tag, Widget... widgets) {
-        super(widgets);
+      addAll(widgets);
         this.tag = tag;
     }
+
+
 
     public SimpleTag attr(String name, Object value) {
         attributes.put(name, Objects.toString(value, ""));
@@ -45,12 +48,13 @@ public class SimpleTag extends Widget {
         return WebooUtil.quteMap(template, Map.of(
                 "tag", tag,
                 "text", text,
-                "children", toChildrenHtml(),
-                "attributes", prepareAttributes(),
-                "attr", getIdClassStyleAttr()
+                "children", super.toHtml(),
+                "attributes", prepareAttributes()
 
         ));
     }
+
+
 
     private String prepareAttributes() {
         final StringBuilder att = new StringBuilder();

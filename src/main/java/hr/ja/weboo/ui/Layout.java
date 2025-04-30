@@ -2,33 +2,25 @@ package hr.ja.weboo.ui;
 
 import hr.ja.weboo.ui.widgets.Widget;
 import hr.ja.weboo.utils.WebooUtil;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Data
 public class Layout {
 
 
-    private String title;
+    public String toHtml(WebPageContext context, AbstractPage page) {
 
-    private Map<String, ?> model;
-    private HttpServletRequest request;
-    private HttpServletResponse response;
-
-    public String toHtml(AbstractPage page) {
-
-        String body = WebooUtil.widgetToHtml(page.getWidgets());
-
+        String body = WebooUtil.widgetToHtml(context.getWidgets());
 
         String scriptCode = "";
         if (WebooUtil.isDebug()) {
             String callerInfoJson = "";
-            callerInfoJson = "const WEBOO_WIDGETS_INFO = " + WebooUtil.toJson(page.getWidgets().stream()
-                    .map(Widget::get_callerInfo)
+            callerInfoJson = "const WEBOO_WIDGETS_INFO = " + WebooUtil.toJson(context.getWidgets().stream()
+                    .map(Widget::getDebugCallerInfo)
+                    .filter(Objects::nonNull)
                     .toList()) + ";";
             scriptCode = """
                     <script>
@@ -57,7 +49,7 @@ public class Layout {
                     <script src="all.js"></script>
                 </body>
                 </html>""";
-        return WebooUtil.quteMap(html, Map.of("body", body, "title", title, "scriptCode", scriptCode));
+        return WebooUtil.quteMap(html, Map.of("body", body, "title", page.getTitle(), "scriptCode", scriptCode));
     }
 
 }

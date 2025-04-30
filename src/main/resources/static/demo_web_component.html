@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h2>First component</h2>
+<script>
+    class MyElement extends HTMLElement {
+        // add child elements
+        constructor() {
+            super();
+            const shadow = this.attachShadow({mode: 'open'});
+            const slot = document.createElement("slot");
+            const wrapper = document.createElement('span');
+            wrapper.textContent = 'Hello from the shadow DOM!';
+            shadow.appendChild(wrapper);
+            shadow.appendChild(slot);
+
+        }
+    }
+
+    customElements.define('my-element', MyElement);
+</script>
+
+<my-element>
+    <h2>H2 je ovo</h2>
+</my-element>
+</body>
+</html>

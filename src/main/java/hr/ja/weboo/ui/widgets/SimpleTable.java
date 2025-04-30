@@ -16,7 +16,6 @@ public class SimpleTable<M> extends Widget {
 
     public SimpleTable(Collection<M> data) {
         this.data = data;
-        addClass("table");
     }
 
     public Column<M> column(String name, ColumnRender<M, Object> columnValue) {
@@ -30,7 +29,7 @@ public class SimpleTable<M> extends Widget {
 
 
         String template = """
-                <table {attr.raw}>
+                <table {attr.raw} class="table">
                    <thead>
                        <tr>
                         {#for c in columns}
@@ -51,8 +50,7 @@ public class SimpleTable<M> extends Widget {
 
         return WebooUtil.quteMap(template, Map.of(
                 "columns", columns,
-                "data", data,
-                "attr", getIdClassStyleAttr()
+                "data", data
         ));
     }
 }

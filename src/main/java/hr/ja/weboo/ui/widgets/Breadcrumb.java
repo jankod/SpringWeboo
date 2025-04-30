@@ -1,6 +1,7 @@
 package hr.ja.weboo.ui.widgets;
 
 
+import hr.ja.weboo.ui.DefaultWidget;
 import hr.ja.weboo.utils.WebooUtil;
 import lombok.Data;
 
@@ -8,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Data
-public class Breadcrumb extends Widget {
+public class Breadcrumb extends DefaultWidget {
 
     private Map<String, String> navLinks = new LinkedHashMap<>();
 
@@ -35,7 +36,7 @@ public class Breadcrumb extends Widget {
 
         return WebooUtil.quteMap(template,
                 Map.of("navLinks", navLinks,
-                        "id", getWidgetId(),
+                        "id", widgetId(),
                         "class", getClasses()));
     }
 }

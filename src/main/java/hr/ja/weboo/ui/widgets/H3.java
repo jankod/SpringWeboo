@@ -1,9 +1,10 @@
 package hr.ja.weboo.ui.widgets;
 
 
+import hr.ja.weboo.ui.CompositeWidget;
 import hr.ja.weboo.utils.WebooUtil;
 
-public class H3 extends Widget {
+public class H3 extends CompositeWidget {
 
     private final String text;
 

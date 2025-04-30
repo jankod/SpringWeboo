@@ -24,16 +24,15 @@ public class Card extends Widget {
                 </div>
                 """;
         return WebooUtil.quteKeyValue(te,
-                "classes", getClasses(),
-                "id", getWidgetId(),
-                "title", title,
-                "children", toChildrenHtml()
+//                "classes", getClasses(),
+                "id", widgetId(),
+                "title", title
+  //              "children", toChildrenHtml()
         );
     }
 
     public static void main(String[] args) {
         Card card = new Card("My Card");
-        card.addClass("my-card");
         System.out.println(card.toHtml());
     }
 }

@@ -2,13 +2,16 @@ package hr.ja.weboo.ui.widgets;
 
 import hr.ja.weboo.utils.WebooUtil;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
-@Data
+@Getter
+@Setter
 public class Link extends Widget {
 
     private String label;
@@ -33,12 +36,11 @@ public class Link extends Widget {
 
     @Override
     public String toHtml() {
+        // Language=FreeMarker
         String template = """
-                <a href="${url}" class='btn btn-link'>${label}</a>
+                <a href="${url}" class='btn btn-link' id='${widgetId}'>${label}</a>
                 """;
 
-        return WebooUtil.quteThis(template, Map.of(
-                "url", url, "label", label
-        ));
+        return WebooUtil.quteThis(template, this);
     }
 }

@@ -10,7 +10,6 @@ public class Column<M> {
     public Column(String name, ColumnRender<M, Object> columnValue) {
         this.name = name;
         this.columnValue = columnValue;
-
     }
 }
 
