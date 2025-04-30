@@ -9,7 +9,6 @@ public class Col extends SimpleTag {
 
     public Col(Widget... widgets) {
         super("div", widgets);
-        addClass("col");
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 import static j2html.TagCreator.div;
 
 @Getter
-public class AlertWidget extends CompositeWidget {
+public class AlertWidget extends CompositeWidget implements HasClasses {
 
     private final String message;
 
@@ -62,9 +62,7 @@ public class AlertWidget extends CompositeWidget {
     }
 
 
-    private Iterable<? extends DomContent> getChildren() {
-        return null;
-    }
+
 
 //    public JavaScriptFunction callShowMessage(String message) {
 //        return new CustomJavaScript("""

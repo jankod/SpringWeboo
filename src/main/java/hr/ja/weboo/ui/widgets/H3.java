@@ -3,8 +3,10 @@ package hr.ja.weboo.ui.widgets;
 
 import hr.ja.weboo.ui.CompositeWidget;
 import hr.ja.weboo.utils.WebooUtil;
+import lombok.Getter;
 
-public class H3 extends CompositeWidget {
+@Getter
+public class H3 extends CompositeWidget implements HasClasses {
 
     private final String text;
 
@@ -14,6 +16,19 @@ public class H3 extends CompositeWidget {
 
     @Override
     public String toHtml() {
-        return "<h3>" + WebooUtil.escape(text) + "</h3>";
+        return WebooUtil.quteThis(
+                """
+                        <h3 id="${widgetId}" >
+                            {this.text}
+                            ${children.raw}
+                        </h3>
+                        """, this);
+
+    }
+
+    public static void main(String[] args) {
+        H3 h3 = new H3("My H3");
+        h3.add(new Div("Hello"));
+        System.out.println(h3.toHtml());
     }
 }

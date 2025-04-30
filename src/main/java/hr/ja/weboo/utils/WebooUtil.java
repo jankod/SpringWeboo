@@ -200,6 +200,37 @@ public class WebooUtil {
 //    }
 
 
+    public static String htmlEscape(String html) {
+        if (html == null) {
+            return null;
+        }
+        StringBuilder escapedText = new StringBuilder(html.length() + 16);
+        char currentChar;
+        for (int i = 0; i < html.length(); i++) {
+            currentChar = html.charAt(i);
+            switch (currentChar) {
+                case '<':
+                    escapedText.append("&lt;");
+                    break;
+                case '>':
+                    escapedText.append("&gt;");
+                    break;
+                case '&':
+                    escapedText.append("&amp;");
+                    break;
+                case '"':
+                    escapedText.append("&quot;");
+                    break;
+                case '\'':
+                    escapedText.append("&#x27;");
+                    break;
+                default:
+                    escapedText.append(currentChar);
+            }
+        }
+        return escapedText.toString();
+    }
+
     /**
      * return Qute.Map.of("this", this)
      *

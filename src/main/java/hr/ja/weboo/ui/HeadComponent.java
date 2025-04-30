@@ -12,8 +12,6 @@ public class HeadComponent extends CompositeWidget {
     @Override
     public String toHtml() {
 
-        addClass("ui-widget-head");
-        addClass("ui-widget-head-text");
         // Language=FreeMarker
         String html = """
                 <div class="${classes}" id="${widgetId}">

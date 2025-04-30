@@ -1,7 +1,7 @@
 package hr.ja.weboo.ui.widgets;
 
 
-public class Div extends SimpleTag {
+public class Div extends SimpleTag implements HasClasses {
 
     public Div(Widget... widgets) {
         super("div", widgets);
@@ -19,7 +19,7 @@ public class Div extends SimpleTag {
 
     public static void main(String[] args) {
         Div div = new Div(new Col());
-        div.attr("title", "value");
+        div.setAttribute("title", "value");
         System.out.println(div.toHtml());
     }
 }

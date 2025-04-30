@@ -16,7 +16,7 @@ import java.util.*;
 @Slf4j
 public class WebPageContext {
 
-    private LinkedList<Widget> widgets = new LinkedList<>();
+    //private LinkedList<Widget> widgets = new LinkedList<>();
 
     private Map<String, ?> model;
     private HttpServletRequest request;
@@ -35,25 +35,6 @@ public class WebPageContext {
         currentContext.set(this);
     }
 
-
-    public <T extends Widget> T add(T widget) {
-        widgets.add(widget);
-        if (WebooUtil.isDebug()) {
-            if (widget instanceof CompositeWidget) {
-                return widget;
-            }
-            CallerInfo callerInfo = WebooUtil.getCallerInfo(3);
-            callerInfo.setWidgetId(widget.widgetId());
-            callerInfo.setWidgetName(widget.getClass().getSimpleName());
-            widget.setDebugCallerInfo(callerInfo);
-        }
-        return widget;
-    }
-
-    public J4HtmlWidget add(ContainerTag<?> content) {
-        J4HtmlWidget j4HtmlWidget = new J4HtmlWidget(content);
-        return add(j4HtmlWidget);
-    }
 
 
     public static WebPageContext getCurrentContext() {

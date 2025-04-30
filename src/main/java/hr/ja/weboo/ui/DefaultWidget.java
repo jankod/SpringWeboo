@@ -1,62 +1,57 @@
 package hr.ja.weboo.ui;
 
+import hr.ja.weboo.ui.widgets.HasChildren;
 import hr.ja.weboo.ui.widgets.Widget;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Objects;
 
 @Getter
 @Setter
-public abstract class DefaultWidget extends Widget  {
+public class DefaultWidget extends Widget implements HasAttributes, HasChildren {
 
-//    private Map<String, String> attributes = new HashMap<>();
-//
-//    public DefaultWidget addAttr(String param, String value) {
-//        attributes.merge(param, value, (a, b) -> a + " " + b);
-//        return this;
-//    }
-//
-//    public DefaultWidget setAttr(String param, String value) {
-//        attributes.put(param, value);
-//        return this;
-//    }
-    private String classes;
+    private final Map<String, Object> attributes = new HashMap<>();
 
-    public DefaultWidget addClass(String classes) {
-        if (this.classes == null) {
-            this.classes = classes;
-        }else {
-            this.classes += " " + classes;
-        }
+    private final LinkedList<Widget> children = new LinkedList<>();
+
+
+    @Override
+    public Widget add(Widget widget) {
+        children.add(widget);
         return this;
     }
 
-    public DefaultWidget setClass(String classes) {
-        this.classes = classes;
-        return this;
+    @Override
+    public void removeChild(Widget widget) {
+        children.remove(widget);
     }
 
-    public String getClasses() {
-        return classes;
+    @Override
+    public Widget getChild(int index) {
+        return children.get(index);
     }
 
-//    public String getIdClass() {
-//        return paramValue("id", getWidgetId())
-//               + paramValue("class", getClasses().toString())
-//               + paramValue("style", getStyle());
-//    }
+    @Override
+    public int getChildCount() {
+        return children.size();
+    }
 
-//    private String paramValue(String param, String value) {
-//        if (param == null || param.isEmpty()) {
-//            return "";
-//        }
-//        if (value == null || value.isEmpty()) {
-//            return "";
-//        }
-//        return param + "=\"" + value + "\" ";
-//    }
+    @Override
+    public void clearChildren() {
+        children.clear();
+    }
 
+    @Override
+    public boolean hasChildren() {
+        return !children.isEmpty();
+    }
 
+    @Override
+    public String toHtml() {
+        return "NOT IMPLEMENTED " + getClass().getName();
+    }
 }

@@ -8,7 +8,7 @@ function showPopover(element, widgetInfo) {
         placement: 'right',
         trigger: 'manual',
         html: true,
-       // delay: {show: 0, hide: 100},
+        // delay: {show: 0, hide: 100},
     });
     _lastPopover = popover;
     popover.show();
@@ -28,17 +28,23 @@ function hidePopover(element) {
  */
 function addHoverEffect(widgetsInfo) {
     widgetsInfo.forEach(w => {
-        console.log("Widget info", w);
         const element = document.getElementById(w.widgetId);
         if (!element) {
             console.error("Element with id " + w.widgetId + " not found");
             return;
         }
         if (element) {
-            element.style.border = '2px solid transparent';
-            element.style.transition = 'border 0.3s';
 
-            element.addEventListener('mouseover', () => {
+
+            element.style.border = '2px solid transparent';
+            element.style.transition = 'border 0.2s';
+
+            element.addEventListener('mouseover', (event) => {
+                // ako user drzi shift gumb pritisnuti
+                if (!event.shiftKey) {
+                    element.style.border = '2px solid transparent';
+                    return;
+                }
                 element.style.border = '2px solid red';
                 // showCustomDebugTooltip(element);
                 showPopover(element, w);

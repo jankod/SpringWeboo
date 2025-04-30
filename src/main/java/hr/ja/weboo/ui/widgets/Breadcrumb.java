@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Data
-public class Breadcrumb extends DefaultWidget {
+public class Breadcrumb extends DefaultWidget implements HasClasses {
 
     private Map<String, String> navLinks = new LinkedHashMap<>();
 

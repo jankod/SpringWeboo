@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 //@Accessors()
-public class Button extends DefaultWidget {
+public class Button extends DefaultWidget implements HasClasses {
     private final String label;
 
     private Color color = Color.PRIMARY;

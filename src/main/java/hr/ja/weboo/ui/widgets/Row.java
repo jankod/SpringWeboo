@@ -13,15 +13,12 @@ public class Row extends SimpleTag {
         return this;
     }
 
-    public Row col2(Widget... widgets) {
-        add(new Col(widgets).addClass("col-2"));
-        return this;
-    }
 
     public static void main(String[] args) {
         Row row = new Row();
-        row.col2().col2();
-        row.attr("title", "Ovo je title");
+        row.col(new Div("col 1"));
+        row.col(new Div("col 2"));
+        row.setAttribute("title", "Ovo je title");
         System.out.println(row.toHtml());
     }
 
