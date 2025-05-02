@@ -46,9 +46,7 @@ public class WebooUtil {
 //        }
 
 
-        CallerInfo callerInfo = new CallerInfo(className, methodName, lineNumber);
-        callerInfo.setDebugLink(createDebugLink());
-        return callerInfo;
+        return new CallerInfo(className, methodName, lineNumber, createDebugLink());
     }
 
     public static String createDebugLink() {
@@ -90,12 +88,14 @@ public class WebooUtil {
         Engine engine = Engine.builder()
                 .strictRendering(true)
                 .addParserHook(p -> p.addContentFilter(s -> {
+                    // for freemarker style ${}
                     s = StringUtils.replace(s, "${", "{" + this_object_name + ".");
+
+                    //     s = s.replaceAll("\\$\\{([^}]*)\\}", "{" + this_object_name + ".$1}");
                     return s;
                 }))
                 //.addSectionHelper(new LoopSectionHelper.Factory())
                 .addDefaultSectionHelpers()
-//              .addValueResolver(new WidgetResolver())
                 .addResultMapper(new QuteWidgetResultMapper())
 
                 .addDefaultValueResolvers()
@@ -104,7 +104,7 @@ public class WebooUtil {
                 .addValueResolver(new ReflectionValueResolver())
                 .addValueResolver(ValueResolvers.rawResolver())
 
-                // for freemarker style ${}
+
                 .build();
 
         Qute.setEngine(engine);
@@ -127,32 +127,19 @@ public class WebooUtil {
 
 
     public static String quteKeyValue(String template, Object... keyValues) {
-        try {
-            Qute.Fmt f = Qute.fmt(template);
-            f.variant(Variant.forContentType(Variant.TEXT_HTML));
-
-            if (keyValues.length % 2 != 0) {
-                throw new IllegalArgumentException("Number of arguments must be even (key-value pairs)");
-            }
-
-            // Izgradnja mape ključ-vrijednost
-            Map<String, Object> dataMap = new HashMap<>();
-            for (int i = 0; i < keyValues.length; i += 2) {
-                if (!(keyValues[i] instanceof String key)) {
-                    throw new IllegalArgumentException("Ključ mora biti tipa String");
-                }
-                Object value = keyValues[i + 1];
-                dataMap.put(key, value);
-            }
-            return f.dataMap(dataMap).render();
-
-        } catch (TemplateException e) {
-            String templateWithLineNumbers = addLineNumbers(template);
-            log.debug("Error " + e.getMessage());
-            log.debug(templateWithLineNumbers);
-            ExceptionUtils.rethrow(e);
-            return "Error: " + e.getMessage();
+        if (keyValues.length % 2 != 0) {
+            throw new IllegalArgumentException("Number of arguments must be even (key-value pairs)");
         }
+
+        Map<String, Object> dataMap = new HashMap<>();
+        for (int i = 0; i < keyValues.length; i += 2) {
+            if (!(keyValues[i] instanceof String key)) {
+                throw new IllegalArgumentException("Ključ mora biti tipa String");
+            }
+            Object value = keyValues[i + 1];
+            dataMap.put(key, value);
+        }
+        return quteMap(template, dataMap);
 
 
     }
@@ -184,21 +171,6 @@ public class WebooUtil {
         }
         return result.toString();
     }
-
-//    /**
-//     * @param template
-//     * @param widgets  array of widgets
-//     * @return html
-//     */
-//    public static String quteWidget(String template, Widget... widgets) {
-//        // add html variant
-//        Qute.Fmt fmt = Qute.fmt(template);
-//        fmt.variant(Variant.forContentType(Variant.TEXT_HTML));
-//        fmt.dataArray((Object[]) widgets);
-//        return fmt.render();
-//        //return Qute.fmt(template, (Object[]) widgets);
-//    }
-
 
     public static String htmlEscape(String html) {
         if (html == null) {
@@ -238,11 +210,9 @@ public class WebooUtil {
      * @param thisObject object to be used in template rendering
      * @return html
      */
+    @Deprecated
     public static String quteThis(String template, Object thisObject) {
-        Qute.Fmt fmt = Qute.fmt(template);
-        fmt.variant(Variant.forContentType(Variant.TEXT_HTML));
-
-        return fmt.dataMap(Map.of(this_object_name, thisObject)).render();
+        return WebooUtil.quteThis(template, thisObject);
     }
 
 
@@ -321,12 +291,33 @@ public class WebooUtil {
                 html.append(comment).append("\n");
             }
             String widgetHtml = widget.toHtml();
+
+            appendId(widgetHtml, widget.widgetId());
+
             html.append(widgetHtml).append("\n");
 
         }
 
 
         return html.toString();
+    }
+
+    private static void appendId(String widgetHtml, String widgetId) {
+        // na html prvi tag dodati id="widgetId"
+        // napravi algoritam koji ce poslje prvog pojavljivanja <tag dodati id="widgetId"
+
+        widgetHtml = widgetHtml.trim();
+        int index = widgetHtml.indexOf("<");
+        if (index == -1) {
+            return;
+        }
+        for (int i = index + 1; i < widgetHtml.length(); i++) {
+            // unutar prvog space uguraj id="widgetId"
+            if (widgetHtml.charAt(i) == ' ') {
+                widgetHtml = widgetHtml.substring(0, i) + " id=\"" + widgetId + "\"" + widgetHtml.substring(i);
+                break;
+            }
+        }
     }
 
     private static String wrapWithDebug(String string) {

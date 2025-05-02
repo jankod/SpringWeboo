@@ -4,7 +4,11 @@ import hr.ja.weboo.ui.HasAttributes;
 
 public interface HasClasses extends HasAttributes {
     default String getClasses() {
-        return getAttributes().get("class").toString();
+        Object aClass = getAttributes().get("class");
+        if (aClass == null) {
+            return "";
+        }
+        return aClass.toString();
     }
 
     default void addClass(String classes) {

@@ -28,10 +28,10 @@ public class WebPageContext {
     // koje možda želite dijeliti između faza renderiranja ili komponenti.
     private final Map<String, Object> attributes = new HashMap<>();
 
-    private final String pageId;
+    //private final String pageId;
 
     public WebPageContext() {
-        this.pageId = UUID.randomUUID().toString();
+      //  this.pageId = UUID.randomUUID().toString();
         currentContext.set(this);
     }
 

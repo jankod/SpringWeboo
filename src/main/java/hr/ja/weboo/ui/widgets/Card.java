@@ -2,6 +2,7 @@ package hr.ja.weboo.ui.widgets;
 
 
 import hr.ja.weboo.utils.WebooUtil;
+import org.intellij.lang.annotations.Language;
 
 public class Card extends Widget {
     private final String title;
@@ -12,7 +13,7 @@ public class Card extends Widget {
 
     @Override
     public String toHtml() {
-        //language=HTML
+        @Language("HTML")
         String te = """
                 <div class="card {classes}" id='{id}'>
                   <div class='card-header'>
@@ -27,7 +28,7 @@ public class Card extends Widget {
 //                "classes", getClasses(),
                 "id", widgetId(),
                 "title", title
-  //              "children", toChildrenHtml()
+                //              "children", toChildrenHtml()
         );
     }
 

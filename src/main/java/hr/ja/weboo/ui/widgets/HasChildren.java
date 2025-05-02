@@ -1,15 +1,35 @@
 package hr.ja.weboo.ui.widgets;
 
+import lombok.Getter;
+
+import java.util.LinkedList;
+import java.util.List;
+
 public interface HasChildren {
-    Widget add(Widget widget);
 
-    void removeChild(Widget widget);
+    LinkedList<Widget> getChildren();
 
-    Widget getChild(int index);
+    default void add(Widget widget) {
+         getChildren().add(widget);
+    }
 
-    int getChildCount();
+    default void removeChild(Widget widget) {
+        getChildren().remove(widget);
+    }
 
-    void clearChildren();
+    default Widget getChild(int index) {
+        return getChildren().get(index);
+    }
 
-    boolean hasChildren();
+    default int getChildCount() {
+        return getChildren().size();
+    }
+
+    default void clearChildren() {
+        getChildren().clear();
+    }
+
+    default boolean hasChildren() {
+        return !getChildren().isEmpty();
+    }
 }

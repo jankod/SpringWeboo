@@ -27,6 +27,7 @@ public class DefaultLayout implements Layout {
         }
         //language=HTML
         String html = """
+                <!DOCTYPE html>
                 <html lang="en">
                 <head>
                     <meta charset="UTF-8">

@@ -4,16 +4,18 @@ import lombok.Data;
 
 @Data
 public class CallerInfo {
-    int lineNumber;
     String className;
     String methodName;
-    String widgetId;
+    int lineNumber;
     String debugLink;
-    String widgetName;
 
-    public CallerInfo(String className, String methodName, int lineNumber) {
+    String widgetName;
+    String widgetId;
+
+    public CallerInfo(String className, String methodName, int lineNumber, String debugLink) {
         this.className = className;
         this.methodName = methodName;
         this.lineNumber = lineNumber;
+        this.debugLink = debugLink;
     }
 }

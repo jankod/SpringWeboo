@@ -23,4 +23,13 @@ public interface HasAttributes {
         }
         return sb.toString().trim();
     }
+
+    default String toHtmlAttribute(String attributeName) {
+        Object attributeValue = getAttributes().get(attributeName);
+        if (attributeValue != null) {
+            return attributeName + "=\"" + WebooUtil.escape(attributeValue.toString()) + "\"";
+        } else {
+            return "";
+        }
+    }
 }

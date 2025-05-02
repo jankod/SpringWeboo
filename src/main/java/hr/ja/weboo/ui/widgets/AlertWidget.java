@@ -38,7 +38,7 @@ public class AlertWidget extends CompositeWidget implements HasClasses {
 
         // language=HTML
         String html = """
-                <div class="alert alert-danger alert-dismissible" role="alert">
+                <div class="alert alert-danger alert-dismissible" role="alert" id="{widgetId}">
                     <div class="alert-icon">
                         <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -57,7 +57,8 @@ public class AlertWidget extends CompositeWidget implements HasClasses {
                 """;
 
         return WebooUtil.quteKeyValue(html,
-                "content", getChildren().toString());
+                "content", getChildren().toString(),
+                "widgetId", getWidgetId());
 
     }
 

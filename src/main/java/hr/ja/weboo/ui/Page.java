@@ -5,6 +5,7 @@ import hr.ja.weboo.ui.widgets.Widget;
 import hr.ja.weboo.utils.CallerInfo;
 import hr.ja.weboo.utils.SpringUtil;
 import hr.ja.weboo.utils.WebooUtil;
+import hr.ja.weboo.utils.WidgetsLinkedList;
 import j2html.tags.ContainerTag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +26,7 @@ public abstract class Page implements View {
 
     private String title = "";
 
-    private final LinkedList<Widget> widgets = new LinkedList<>();
+    private final WidgetsLinkedList widgets = new WidgetsLinkedList();
 
     private Layout layout;
 

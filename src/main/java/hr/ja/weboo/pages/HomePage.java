@@ -18,8 +18,9 @@ public class HomePage extends Page {
     public static final String URL = "/";
 
     @Override
-    protected void render(WebPageContext webPageContext) {
+    protected void render(WebPageContext context) {
         setTitle("Home Page");
+        setLayout(new DefaultLayout());
         add(new H3("Home Page"));
         add(new Link("User Page", UserPage.URL));
     }

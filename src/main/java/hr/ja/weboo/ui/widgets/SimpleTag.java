@@ -5,6 +5,7 @@ import hr.ja.weboo.utils.WebooUtil;
 import j2html.utils.EscapeUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.intellij.lang.annotations.Language;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,22 +31,7 @@ public class SimpleTag extends CompositeWidget implements HasClasses {
         this.tag = tag;
     }
 
-    @Override
-    public String toHtml() {
 
-        //Language=InjectableFreeMarker
-        String html = """
-                  <${tag} ${renderAttributes().raw} id="${widgetId}">
-                        ${text}
-                         {children.raw}
-                   </${tag}>
-                """;
-
-        return WebooUtil.quteMap(html, Map.of(
-                "this", this,
-                "children", renderChildren()
-        ));
-    }
 
     private String renderChildren() {
         StringBuilder sb = new StringBuilder();
@@ -65,6 +51,23 @@ public class SimpleTag extends CompositeWidget implements HasClasses {
                     %s="%s" """.formatted(name, value));
         });
         return att.toString();
+    }
+
+    @Override
+    public String toHtml() {
+
+        @Language("HTML")
+        String html = """
+                  <${tag} ${renderAttributes().raw} id="${widgetId}">
+                        ${text}
+                         {children.raw}
+                   </${tag}>
+                """;
+
+        return WebooUtil.quteMap(html, Map.of(
+                "this", this,
+                "children", renderChildren()
+        ));
     }
 
     public static void main(String[] args) {

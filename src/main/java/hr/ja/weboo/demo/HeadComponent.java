@@ -1,6 +1,6 @@
-package hr.ja.weboo.ui;
+package hr.ja.weboo.demo;
 
-import hr.ja.weboo.ui.widgets.Widget;
+import hr.ja.weboo.ui.CompositeWidget;
 import hr.ja.weboo.utils.WebooUtil;
 import lombok.Data;
 
