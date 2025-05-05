@@ -1,30 +1,19 @@
-package hr.ja.weboo.ui;
+package hr.ja.weboo.ui.layout;
 
-import hr.ja.weboo.ui.widgets.Widget;
+import hr.ja.weboo.ui.Page;
+import hr.ja.weboo.ui.WebPageContext;
 import hr.ja.weboo.utils.WebooUtil;
 
 import java.util.Map;
-import java.util.Objects;
 
-public class DefaultLayout implements Layout {
+public class BootstrapLayout implements Layout {
 
     public String toHtml(WebPageContext context, Page page) {
 
         String body = WebooUtil.widgetToHtml(page.getWidgets());
 
-        String scriptCode = "";
-        if (WebooUtil.isDebug()) {
-            String callerInfoJson = "";
-            callerInfoJson = "const WEBOO_WIDGETS_INFO = " + WebooUtil.toJson(page.getWidgets().stream()
-                    .map(Widget::getDebugCallerInfo)
-                    .filter(Objects::nonNull)
-                    .toList()) + ";";
-            scriptCode = """
-                    <script>
-                        %s
-                    </script>
-                    """.formatted(callerInfoJson);
-        }
+        String scriptCode = createScriptJsCode(page);
+
         //language=HTML
         String html = """
                 <!DOCTYPE html>
@@ -34,6 +23,7 @@ public class DefaultLayout implements Layout {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>{title}</title>
                         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+                        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> -->
                     <link rel="stylesheet" href="all.css">
                     {scriptCode.raw}
                 </head>
@@ -49,4 +39,6 @@ public class DefaultLayout implements Layout {
                 </html>""";
         return WebooUtil.quteMap(html, Map.of("body", body, "title", page.getTitle(), "scriptCode", scriptCode));
     }
+
+
 }

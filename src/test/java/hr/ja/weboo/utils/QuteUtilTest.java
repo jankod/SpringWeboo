@@ -1,5 +1,6 @@
 package hr.ja.weboo.utils;
 
+import hr.ja.weboo.ui.CompositeWidget;
 import hr.ja.weboo.ui.widgets.Widget;
 import lombok.Data;
 import org.intellij.lang.annotations.Language;
@@ -13,6 +14,28 @@ class QuteUtilTest {
     @Test
     void testBasicTemplate() {
         String html = new TestBasicTemplateWidget().toHtml();
+    }
+
+    @Test
+    void testChildrenWidget() {
+        MyCompositeWidget widget = new MyCompositeWidget();
+        widget.add(new DemoWidget2());
+        widget.add(new DemoWidget2());
+        String html = widget.toHtml();
+        System.out.println(html);
+    }
+}
+
+class MyCompositeWidget extends CompositeWidget {
+
+
+    @Override
+    public String toHtml() {
+        String template = """
+                <div>MyCompositeWidget</div>
+                ${children}
+                """;
+        return QuteUtil.quteThis(template, this);
     }
 }
 

@@ -36,22 +36,26 @@ function addHoverEffect(widgetsInfo) {
         if (element) {
 
 
-            element.style.border = '2px solid transparent';
-            element.style.transition = 'border 0.2s';
+         //   element.style.border = '2px solid transparent';
+          //  element.style.transition = 'border 0.2s';
 
             element.addEventListener('mouseover', (event) => {
                 // ako user drzi shift gumb pritisnuti
                 if (!event.shiftKey) {
-                    element.style.border = '2px solid transparent';
+                    //element.style.border = '2px solid transparent';
+                    // dodaj class .debug
+                    element.classList.remove('debug');
                     return;
                 }
-                element.style.border = '2px solid red';
+                //element.style.border = '2px solid red';
                 // showCustomDebugTooltip(element);
+                element.classList.add('debug');
                 showPopover(element, w);
             });
 
             element.addEventListener('mouseout', () => {
-                element.style.border = '2px solid transparent';
+                //element.style.border = '2px solid transparent';
+                element.classList.remove('debug');
                 // hideCustomDebugTooltip();
                 //  hidePopover(element);
             });

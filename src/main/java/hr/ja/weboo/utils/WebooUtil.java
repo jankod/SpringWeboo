@@ -212,7 +212,7 @@ public class WebooUtil {
      */
     @Deprecated
     public static String quteThis(String template, Object thisObject) {
-        return WebooUtil.quteThis(template, thisObject);
+        return QuteUtil.quteThis(template, thisObject);
     }
 
 

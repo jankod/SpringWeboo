@@ -1,9 +1,7 @@
 package hr.ja.weboo.pages;
 
 import hr.ja.weboo.ui.*;
-import hr.ja.weboo.ui.widgets.Div;
-import hr.ja.weboo.ui.widgets.H3;
-import hr.ja.weboo.ui.widgets.Link;
+import hr.ja.weboo.ui.widgets.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +15,21 @@ public class HomePage extends Page {
 
     public static final String URL = "/";
 
+    MyLayout myLayout = new MyLayout();
+
     @Override
     protected void render(WebPageContext context) {
         setTitle("Home Page");
-        setLayout(new DefaultLayout());
+        setUpLayout();
+
+
         add(new H3("Home Page"));
         add(new Link("User Page", UserPage.URL));
+
+        add( AlertWidget.warning("Ovo je alter widget"));
+    }
+
+    private void setUpLayout() {
+        setLayout(myLayout);
     }
 }

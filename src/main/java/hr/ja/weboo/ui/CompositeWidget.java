@@ -2,6 +2,7 @@ package hr.ja.weboo.ui;
 
 import hr.ja.weboo.ui.widgets.HasChildren;
 import hr.ja.weboo.ui.widgets.Widget;
+import hr.ja.weboo.utils.WidgetsLinkedList;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class CompositeWidget extends DefaultWidget implements HasChildren {
 
-    private final LinkedList<Widget> children = new LinkedList<>();
+    private final WidgetsLinkedList children = new WidgetsLinkedList();
 
     @Override
     public String toHtml() {

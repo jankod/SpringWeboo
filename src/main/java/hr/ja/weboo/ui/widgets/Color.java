@@ -17,4 +17,9 @@ public enum Color {
     public String toName() {
         return this.name().toLowerCase();
     }
+
+    @Override
+    public String toString() {
+        return toName();
+    }
 }

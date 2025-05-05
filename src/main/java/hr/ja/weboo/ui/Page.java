@@ -1,9 +1,11 @@
 package hr.ja.weboo.ui;
 
+import hr.ja.weboo.ui.layout.BootstrapLayout;
+import hr.ja.weboo.ui.layout.Layout;
+import hr.ja.weboo.ui.layout.TablerLayout;
 import hr.ja.weboo.ui.widgets.J4HtmlWidget;
 import hr.ja.weboo.ui.widgets.Widget;
 import hr.ja.weboo.utils.CallerInfo;
-import hr.ja.weboo.utils.SpringUtil;
 import hr.ja.weboo.utils.WebooUtil;
 import hr.ja.weboo.utils.WidgetsLinkedList;
 import j2html.tags.ContainerTag;
@@ -13,9 +15,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.View;
 
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -79,7 +79,7 @@ public abstract class Page implements View {
         }
 
         if (layout == null) {
-            layout = new DefaultLayout();
+            layout = new TablerLayout();
         }
 
         String html = layout.toHtml(context, this);
