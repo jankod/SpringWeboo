@@ -1,8 +1,10 @@
 package hr.ja.weboo.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.cfg.EnumFeature;
+import tools.jackson.databind.json.JsonMapper;
 import hr.ja.weboo.ui.widgets.Widget;
 import io.quarkus.qute.*;
 import lombok.SneakyThrows;
@@ -17,6 +19,9 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Slf4j
 public class WebooUtil {
@@ -71,18 +76,15 @@ public class WebooUtil {
 
     public static final String this_object_name = "this";
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = JsonMapper.builder()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .enable(EnumFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
+            .build();
 
     private static long handlerIdCounter = 1;
 
 
-    private static long idCounter = 1;
-
-    static {
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        //objectMapper.configure(DeserializationFeature.FAIL_, false);
-        objectMapper.enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL);
-    }
+    private static final ConcurrentMap<Class<? extends Widget>, AtomicLong> widgetCounters = new ConcurrentHashMap<>();
 
     static {
         Engine engine = Engine.builder()
@@ -227,7 +229,7 @@ public class WebooUtil {
     }
 
 
-    public static <T> T fromJson(String json, Class<T> aClass) throws JsonProcessingException {
+    public static <T> T fromJson(String json, Class<T> aClass) throws JacksonException {
         return objectMapper.readValue(json, aClass);
     }
 
@@ -246,8 +248,9 @@ public class WebooUtil {
 
 
     public static String wigetNewId(Class<? extends Widget> aClass) {
-        // TODO : use UUID maybe
-        return aClass.getSimpleName() + "_" + idCounter++;
+        AtomicLong counter = widgetCounters.computeIfAbsent(aClass, key -> new AtomicLong());
+        long next = counter.incrementAndGet();
+        return aClass.getSimpleName() + "_" + next;
     }
 
 //    public static String pageNewId(Class<? extends Page> aClass) {

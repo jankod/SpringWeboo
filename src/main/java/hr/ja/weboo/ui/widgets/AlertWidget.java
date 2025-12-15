@@ -25,6 +25,7 @@ public class AlertWidget extends CompositeWidget implements HasClasses {
     public AlertWidget(String message, Color color) {
         this.message = message;
         this.color = color;
+        addClass("alert-dismissible fade show");
         add(new HtmlWidget(message));
 
     }
@@ -34,7 +35,7 @@ public class AlertWidget extends CompositeWidget implements HasClasses {
 
         @Language("InjectedFreeMarker")
         String t = """
-                  <div class="alert alert-${color} d-flex align-items-center ${classes}" id="{widgetId}" role="alert">
+                  <div class="alert ${classes} alert-${color} d-flex align-items-center" id="{widgetId}" role="alert">
                   ${icon}
                   <div>${children}</div>
                   </div>
