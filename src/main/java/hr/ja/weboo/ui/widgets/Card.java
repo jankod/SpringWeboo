@@ -13,9 +13,9 @@ public class Card extends Widget {
 
     @Override
     public String toHtml() {
-        @Language("HTML")
         String te = """
-                <div class="card {classes}" id='{id}'>
+              <div  class="card {classes}" id='{id}'>
+                   <script\s
                   <div class='card-header'>
                       <h5 class="card-title">{title}</h5>
                   </div>
@@ -23,12 +23,12 @@ public class Card extends Widget {
                      {children.raw}
                   </div>
                 </div>
-                """;
+              """;
         return WebooUtil.quteKeyValue(te,
 //                "classes", getClasses(),
-                "id", widgetId(),
-                "title", title
-                //              "children", toChildrenHtml()
+              "id", widgetId(),
+              "title", title
+              //              "children", toChildrenHtml()
         );
     }
 

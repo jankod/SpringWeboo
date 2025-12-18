@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class App {
 
     public static void main(String[] args) {
-        log.debug("http://localhost:8080/");
         SpringApplication.run(App.class, args);
+        log.debug("http://localhost:8080/");
     }
 
 }

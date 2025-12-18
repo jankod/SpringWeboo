@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping(path = {HomePage.URL})
+    @GetMapping(HomePage.URL)
     public HomePage home() {
         return new HomePage();
     }
 
-    @GetMapping(path = {UserPage.URL})
+    @GetMapping( UserPage.URL)
     public UserPage user() {
         return new UserPage();
     }

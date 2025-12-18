@@ -53,7 +53,6 @@ public class TablerLayout implements Layout {
                 
                 </html>
                 """;
-
         return QuteUtil.quteThis(t, this);
     }
 
