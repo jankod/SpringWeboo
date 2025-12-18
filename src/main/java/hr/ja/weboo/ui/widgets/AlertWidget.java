@@ -15,7 +15,7 @@ public class AlertWidget extends CompositeWidget implements HasClasses {
 
     private Color color;
 
-    private Icon icon = Icon.checkbox();
+    private Icon icon = Icons.checkbox();
 
     public AlertWidget(String message, Color color, Icon icon) {
         this(message, color);
@@ -47,7 +47,7 @@ public class AlertWidget extends CompositeWidget implements HasClasses {
     }
 
     public static AlertWidget warning(String message) {
-        return new AlertWidget(message, Color.WARNING, Icon.home());
+        return new AlertWidget(message, Color.WARNING, Icons.checkbox());
     }
 
 

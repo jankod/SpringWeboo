@@ -4,6 +4,7 @@ import hr.ja.weboo.pages.HomePage;
 import hr.ja.weboo.pages.UserPage;
 import hr.ja.weboo.ui.CompositeWidget;
 import hr.ja.weboo.ui.widgets.Icon;
+import hr.ja.weboo.ui.widgets.Icons;
 import hr.ja.weboo.utils.WebooUtil;
 import lombok.Data;
 import org.intellij.lang.annotations.Language;
@@ -19,8 +20,8 @@ public class NavbarComponent extends CompositeWidget {
 
     @Override
     public String toHtml() {
-        navItems.add(new NavItem("Home", HomePage.URL, Icon.checkbox()));
-        navItems.add(new NavItem("User", UserPage.URL, Icon.user()));
+        navItems.add(new NavItem("Home", HomePage.URL, Icons.home()));
+        navItems.add(new NavItem("User", UserPage.URL, Icons.user()));
 
         @Language("InjectedFreeMarker")
         String html = """

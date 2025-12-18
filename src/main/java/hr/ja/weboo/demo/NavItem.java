@@ -1,6 +1,7 @@
 package hr.ja.weboo.demo;
 
 import hr.ja.weboo.ui.widgets.Icon;
+import hr.ja.weboo.ui.widgets.Icons;
 import hr.ja.weboo.ui.widgets.Widget;
 import hr.ja.weboo.utils.QuteUtil;
 import lombok.Data;
@@ -13,7 +14,7 @@ public class NavItem extends Widget {
 
     private final String linkName;
     private final String linkUrl;
-    private Icon icon = Icon.checkbox();
+    private Icon icon = Icons.checkbox();
 
     public NavItem(String linkName, String linkUrl, Icon icon) {
         this.linkName = linkName;
@@ -39,7 +40,7 @@ public class NavItem extends Widget {
     }
 
     public static void main(String[] args) {
-        NavItem item = new NavItem("link1", "some-link.com",Icon.checkbox());
+        NavItem item = new NavItem("link1", "some-link.com",Icons.checkbox());
         System.out.println(item.toHtml());
     }
 }
