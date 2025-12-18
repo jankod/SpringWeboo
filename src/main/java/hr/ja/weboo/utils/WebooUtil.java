@@ -1,5 +1,6 @@
 package hr.ja.weboo.utils;
 
+import hr.ja.weboo.ui.WebPageContext;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.ObjectMapper;
@@ -248,9 +249,10 @@ public class WebooUtil {
 
 
     public static String wigetNewId(Class<? extends Widget> aClass) {
-        AtomicLong counter = widgetCounters.computeIfAbsent(aClass, key -> new AtomicLong());
-        long next = counter.incrementAndGet();
-        return aClass.getSimpleName() + "_" + next;
+        return WebPageContext.getCurrentContext().generateWidgetId(aClass);
+//        AtomicLong counter = widgetCounters.computeIfAbsent(aClass, key -> new AtomicLong());
+//        long next = counter.incrementAndGet();
+//        return aClass.getSimpleName() + "_" + next;
     }
 
 //    public static String pageNewId(Class<? extends Page> aClass) {

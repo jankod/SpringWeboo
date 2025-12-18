@@ -9,6 +9,7 @@ import java.util.List;
 public interface HasChildren {
 
     WidgetsLinkedList getChildren();
+    //List<Widget> children();
 
     default void add(Widget widget) {
          getChildren().add(widget);

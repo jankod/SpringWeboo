@@ -33,7 +33,7 @@ public class SimpleTag extends CompositeWidget implements HasClasses {
 
 
 
-    private String renderChildren() {
+    protected String renderChildren() {
         StringBuilder sb = new StringBuilder();
         for (Widget child : getChildren()) {
             sb.append(child.toHtml()).append("\n");

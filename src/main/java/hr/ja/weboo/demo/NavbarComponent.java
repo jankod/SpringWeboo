@@ -1,5 +1,7 @@
 package hr.ja.weboo.demo;
 
+import hr.ja.weboo.pages.HomePage;
+import hr.ja.weboo.pages.UserPage;
 import hr.ja.weboo.ui.CompositeWidget;
 import hr.ja.weboo.ui.widgets.Icon;
 import hr.ja.weboo.utils.WebooUtil;
@@ -17,8 +19,8 @@ public class NavbarComponent extends CompositeWidget {
 
     @Override
     public String toHtml() {
-        navItems.add(new NavItem("Home", "home", Icon.checkbox()));
-        navItems.add(new NavItem("Profile", "profile", Icon.checkbox()));
+        navItems.add(new NavItem("Home", HomePage.URL, Icon.checkbox()));
+        navItems.add(new NavItem("User", UserPage.URL, Icon.user()));
 
         @Language("InjectedFreeMarker")
         String html = """

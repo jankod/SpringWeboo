@@ -6,6 +6,7 @@ import hr.ja.weboo.ui.widgets.Widget;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 public class WidgetsLinkedList extends LinkedList<Widget> implements HasHtml {
 
@@ -14,19 +15,13 @@ public class WidgetsLinkedList extends LinkedList<Widget> implements HasHtml {
         return toHtml();
     }
 
+
     @Override
     public String toHtml() {
-        Iterator<Widget> it = iterator();
-        if (!it.hasNext())
-            return "";
-
-        StringBuilder sb = new StringBuilder();
-        for (; ; ) {
-            Widget widget = it.next();
-            sb.append(widget.toHtml());
-            if (!it.hasNext())
-                return sb.toString();
-            sb.append('\n').append(' ');
-        }
+        return stream()
+              .map(Widget::toHtml)
+              .collect(Collectors.joining("\n"));
     }
+
+
 }

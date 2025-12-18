@@ -8,6 +8,10 @@ public class UserPage extends Page {
 
     public static final String URL = "/user";
 
+    UserPage() {
+        setLayout(new MyLayout());
+    }
+
 
     @Override
     protected void render(WebPageContext web) {

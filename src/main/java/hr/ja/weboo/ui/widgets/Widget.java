@@ -35,19 +35,4 @@ public abstract class Widget {
         return toHtml();
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getWidgetId());
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj instanceof Widget) {
-            return widgetId().equals(((Widget) obj).widgetId());
-        }
-        return false;
-    }
 }

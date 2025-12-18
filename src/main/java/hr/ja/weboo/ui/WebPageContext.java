@@ -2,6 +2,7 @@ package hr.ja.weboo.ui;
 
 import hr.ja.weboo.ui.widgets.J4HtmlWidget;
 import hr.ja.weboo.ui.widgets.Widget;
+import hr.ja.weboo.ui.widgets.WidgetIdGenerator;
 import hr.ja.weboo.utils.CallerInfo;
 import hr.ja.weboo.utils.WebooUtil;
 import j2html.tags.ContainerTag;
@@ -28,11 +29,17 @@ public class WebPageContext {
     // koje možda želite dijeliti između faza renderiranja ili komponenti.
     private final Map<String, Object> attributes = new HashMap<>();
 
+    private WidgetIdGenerator widgetIdGenerator;
     //private final String pageId;
 
     public WebPageContext() {
       //  this.pageId = UUID.randomUUID().toString();
         currentContext.set(this);
+        this.widgetIdGenerator = new WidgetIdGenerator();
+    }
+
+    public String generateWidgetId(Class<? extends Widget> widgetClass) {
+        return widgetIdGenerator.next(widgetClass);
     }
 
 

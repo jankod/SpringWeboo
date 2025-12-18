@@ -11,8 +11,8 @@ public interface Layout {
 
     String toHtml(WebPageContext context, Page page);
 
-
     default String createScriptJsCode(Page page) {
+
         String scriptCode = "";
         if (WebooUtil.isDebug()) {
             String callerInfoJson = "";
