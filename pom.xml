@@ -13,19 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>SpringWebooDemo1</name>
     <description>SpringWebooDemo1</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+
     <properties>
         <java.version>25</java.version>
     </properties>
