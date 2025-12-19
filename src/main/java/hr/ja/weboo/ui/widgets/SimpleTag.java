@@ -1,16 +1,13 @@
 package hr.ja.weboo.ui.widgets;
 
 import hr.ja.weboo.ui.CompositeWidget;
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.utils.WebooUtil;
-import j2html.utils.EscapeUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.intellij.lang.annotations.Language;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 
 @Setter
 @Getter
@@ -33,10 +30,10 @@ public class SimpleTag extends CompositeWidget implements HasClasses {
 
 
 
-    protected String renderChildren() {
+    protected String renderChildren(PageContext context) {
         StringBuilder sb = new StringBuilder();
         for (Widget child : getChildren()) {
-            sb.append(child.toHtml()).append("\n");
+            sb.append(child.toHtml(context)).append("\n");
         }
         return sb.toString();
     }
@@ -54,7 +51,7 @@ public class SimpleTag extends CompositeWidget implements HasClasses {
     }
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
 
         @Language("HTML")
         String html = """
@@ -66,7 +63,7 @@ public class SimpleTag extends CompositeWidget implements HasClasses {
 
         return WebooUtil.quteMap(html, Map.of(
                 "this", this,
-                "children", renderChildren()
+                "children", renderChildren(context)
         ));
     }
 
@@ -76,6 +73,6 @@ public class SimpleTag extends CompositeWidget implements HasClasses {
         tag.setAttribute("data-attr", 123);
         tag.add(new H3("My H3"));
         tag.add(new H3("My H3 2"));
-        System.out.println(tag.toHtml());
+        System.out.println(tag.toHtml(new PageContext()));
     }
 }

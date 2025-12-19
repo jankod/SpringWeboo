@@ -3,23 +3,25 @@ package hr.ja.weboo.demo;
 import hr.ja.weboo.pages.HomePage;
 import hr.ja.weboo.pages.UserPage;
 import hr.ja.weboo.ui.CompositeWidget;
-import hr.ja.weboo.ui.widgets.Icon;
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.ui.widgets.Icons;
-import hr.ja.weboo.utils.WebooUtil;
-import lombok.Data;
+import hr.ja.weboo.utils.QuteUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.intellij.lang.annotations.Language;
 
 import java.util.LinkedList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class NavbarComponent extends CompositeWidget {
 
-    private String text = "HeadComponent";
-    List<NavItem> navItems = new LinkedList<>();
+    protected String text = "HeadComponent";
+    protected List<NavItem> navItems = new LinkedList<>();
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
         navItems.add(new NavItem("Home", HomePage.URL, Icons.home()));
         navItems.add(new NavItem("User", UserPage.URL, Icons.user()));
 
@@ -71,13 +73,14 @@ public class NavbarComponent extends CompositeWidget {
                   </div>
                 </header>
                 """;
-        return WebooUtil.quteThis(html, this);
+        return QuteUtil.quteThis(html, this);
     }
 
     public static void main(String[] args) {
         NavbarComponent headComponent = new NavbarComponent();
 
-        String html = headComponent.toHtml();
+        PageContext context = new PageContext();
+        String html = headComponent.toHtml(context);
         System.out.println(html);
     }
 }

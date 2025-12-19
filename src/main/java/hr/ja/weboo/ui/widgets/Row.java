@@ -1,6 +1,8 @@
 package hr.ja.weboo.ui.widgets;
 
 
+import hr.ja.weboo.ui.PageContext;
+
 public class Row extends SimpleTag {
 
     public Row(Widget... widgets) {
@@ -19,7 +21,7 @@ public class Row extends SimpleTag {
         row.col(new Div("col 1"));
         row.col(new Div("col 2"));
         row.setAttribute("title", "Ovo je title");
-        System.out.println(row.toHtml());
+        System.out.println(row.toHtml(new PageContext()));
     }
 
 }

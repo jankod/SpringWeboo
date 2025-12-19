@@ -1,7 +1,7 @@
 package hr.ja.weboo.ui.layout;
 
 import hr.ja.weboo.ui.Page;
-import hr.ja.weboo.ui.WebPageContext;
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.ui.widgets.Widget;
 import hr.ja.weboo.utils.WebooUtil;
 
@@ -9,14 +9,16 @@ import java.util.Objects;
 
 public interface Layout {
 
-     LayoutModel createModel(WebPageContext ctx, Page page);
+     LayoutModel createModel(PageContext ctx, Page page);
 
       String toHtml(LayoutModel model);
 
-      default String createScriptJsCode(LayoutModel model) { ... } // koristi model.bodyHtml ili model.context
+      default String createScriptJsCode(LayoutModel model) {
+            return "";
+      } // koristi model.bodyHtml ili model.context
 
 
-    String toHtml(WebPageContext context, Page page);
+    String toHtml(PageContext context, Page page);
 
     default String createScriptJsCode(Page page) {
 

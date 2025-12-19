@@ -1,10 +1,9 @@
 package hr.ja.weboo.model;
 
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.ui.widgets.Breadcrumb;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 class BreadcrumbTest {
@@ -25,7 +24,7 @@ class BreadcrumbTest {
                     </ol>
                 </nav>
                 """;
-        String actualHtml = breadcrumb.toHtml();
+        String actualHtml = breadcrumb.toHtml(new PageContext());
         log.debug("actualHtml: {}", actualHtml);
         log.debug("Expected HTML: {}", breadcrumb.getNavLinks());
 

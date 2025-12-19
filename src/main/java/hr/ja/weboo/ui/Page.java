@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.springframework.web.servlet.View;
 
 import java.util.Map;
@@ -56,13 +57,17 @@ public abstract class Page implements View {
         return add(j4HtmlWidget);
     }
 
+    @Override
+    public @Nullable String getContentType() {
+        return "text/html";
+    }
 
     @Override
     public void render(Map<String, ?> model, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws Exception {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        WebPageContext context = new WebPageContext();
+        PageContext context = new PageContext();
 
         context.setModel(model);
         context.setRequest(request);
@@ -71,10 +76,8 @@ public abstract class Page implements View {
             render(context);
 
             if (WebooUtil.isDebug()) {
-
                 // add before and after widget html comment with widget id and name
                 for (Widget widget : widgets) {
-
                     String comment = "<!-- " + widget.getClass().getSimpleName() + " id: " + widget.widgetId() + " --> ";
                     //   String html = pageWidgets.stream().map(Widget::toHtml).collect(Collectors.joining(comment));
                 }
@@ -88,9 +91,9 @@ public abstract class Page implements View {
 
             response.getWriter().write(html);
         } finally {
-            WebPageContext.clearCurrentContext();
+            PageContext.clearCurrentContext();
         }
     }
 
-    protected abstract void render(WebPageContext context);
+    protected abstract void render(PageContext context);
 }

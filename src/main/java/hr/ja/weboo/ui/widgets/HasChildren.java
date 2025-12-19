@@ -1,15 +1,10 @@
 package hr.ja.weboo.ui.widgets;
 
 import hr.ja.weboo.utils.WidgetsLinkedList;
-import lombok.Getter;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public interface HasChildren {
 
     WidgetsLinkedList getChildren();
-    //List<Widget> children();
 
     default void add(Widget widget) {
          getChildren().add(widget);

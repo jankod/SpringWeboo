@@ -18,7 +18,7 @@ public class HomePage extends Page {
     MyLayout myLayout = new MyLayout();
 
     @Override
-    protected void render(WebPageContext context) {
+    protected void render(PageContext context) {
         setTitle("Home Page");
         setUpLayout();
 

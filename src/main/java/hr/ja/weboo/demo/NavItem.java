@@ -1,5 +1,6 @@
 package hr.ja.weboo.demo;
 
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.ui.widgets.Icon;
 import hr.ja.weboo.ui.widgets.Icons;
 import hr.ja.weboo.ui.widgets.Widget;
@@ -23,7 +24,7 @@ public class NavItem extends Widget {
     }
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
 
         @Language("InjectedFreeMarker")
         String template = """
@@ -40,7 +41,8 @@ public class NavItem extends Widget {
     }
 
     public static void main(String[] args) {
+        PageContext context = new PageContext();
         NavItem item = new NavItem("link1", "some-link.com",Icons.checkbox());
-        System.out.println(item.toHtml());
+        System.out.println(item.toHtml(context));
     }
 }

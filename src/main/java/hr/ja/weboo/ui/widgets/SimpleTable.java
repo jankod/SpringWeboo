@@ -1,6 +1,7 @@
 package hr.ja.weboo.ui.widgets;
 
 
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.utils.WebooUtil;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class SimpleTable<M> extends Widget {
     }
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
 
 
         String template = """

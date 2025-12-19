@@ -1,6 +1,8 @@
 package hr.ja.weboo.ui.widgets;
 
 
+import hr.ja.weboo.ui.PageContext;
+
 public class Div extends SimpleTag implements HasClasses {
 
     public Div(Widget... widgets) {
@@ -20,6 +22,6 @@ public class Div extends SimpleTag implements HasClasses {
     public static void main(String[] args) {
         Div div = new Div(new Col());
         div.setAttribute("title", "value");
-        System.out.println(div.toHtml());
+        System.out.println(div.toHtml(new PageContext()));
     }
 }

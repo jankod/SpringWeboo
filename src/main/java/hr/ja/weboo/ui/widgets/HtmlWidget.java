@@ -1,5 +1,6 @@
 package hr.ja.weboo.ui.widgets;
 
+import hr.ja.weboo.ui.PageContext;
 
 public class HtmlWidget extends Widget {
     private final String html;
@@ -10,7 +11,7 @@ public class HtmlWidget extends Widget {
     }
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
         return html;
     }
 }

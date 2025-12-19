@@ -1,6 +1,6 @@
 package hr.ja.weboo.utils;
 
-import hr.ja.weboo.ui.WebPageContext;
+import hr.ja.weboo.ui.PageContext;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.ObjectMapper;
@@ -206,18 +206,6 @@ public class WebooUtil {
         return escapedText.toString();
     }
 
-    /**
-     * return Qute.Map.of("this", this)
-     *
-     * @param template   Use a template like this: Hello {1} {2}!
-     * @param thisObject object to be used in template rendering
-     * @return html
-     */
-    @Deprecated
-    public static String quteThis(String template, Object thisObject) {
-        return QuteUtil.quteThis(template, thisObject);
-    }
-
 
     @SneakyThrows
     public static String toJson(Object o) {
@@ -249,7 +237,7 @@ public class WebooUtil {
 
 
     public static String wigetNewId(Class<? extends Widget> aClass) {
-        return WebPageContext.getCurrentContext().generateWidgetId(aClass);
+        return PageContext.getCurrentContext().generateWidgetId(aClass);
 //        AtomicLong counter = widgetCounters.computeIfAbsent(aClass, key -> new AtomicLong());
 //        long next = counter.incrementAndGet();
 //        return aClass.getSimpleName() + "_" + next;
@@ -279,7 +267,7 @@ public class WebooUtil {
     }
 
 
-    public static String widgetToHtml(List<Widget> widgets) {
+    public static String widgetToHtml(PageContext context, List<Widget> widgets) {
         if (widgets == null) {
             return "";
         }
@@ -288,12 +276,13 @@ public class WebooUtil {
             return "";
         }
         StringBuilder html = new StringBuilder();
+        PageContext effectiveContext = context != null ? context : new PageContext();
         for (Widget widget : widgets) {
             if (WebooUtil.isDebug()) {
                 String comment = "<!-- " + widget.getClass().getSimpleName() + " id: " + widget.widgetId() + " --> ";
                 html.append(comment).append("\n");
             }
-            String widgetHtml = widget.toHtml();
+            String widgetHtml = widget.toHtml(effectiveContext);
 
             appendId(widgetHtml, widget.widgetId());
 

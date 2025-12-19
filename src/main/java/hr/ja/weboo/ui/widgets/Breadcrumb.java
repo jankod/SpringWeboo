@@ -1,9 +1,9 @@
 package hr.ja.weboo.ui.widgets;
 
 
-import hr.ja.weboo.ui.DefaultWidget;
+import hr.ja.weboo.ui.WidgetWithAtributes;
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.utils.QuteUtil;
-import hr.ja.weboo.utils.WebooUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.intellij.lang.annotations.Language;
@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Breadcrumb extends DefaultWidget implements HasClasses {
+public class Breadcrumb extends WidgetWithAtributes implements HasClasses {
 
     private Map<String, String> navLinks = new LinkedHashMap<>();
 
@@ -25,7 +25,7 @@ public class Breadcrumb extends DefaultWidget implements HasClasses {
     }
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
 
         // Ispravljen predložak za pristup svojstvima preko 'this'
         @Language("InjectedFreeMarker") String template = """

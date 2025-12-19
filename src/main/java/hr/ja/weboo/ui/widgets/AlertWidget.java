@@ -1,6 +1,7 @@
 package hr.ja.weboo.ui.widgets;
 
 import hr.ja.weboo.ui.CompositeWidget;
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.utils.QuteUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,7 +32,7 @@ public class AlertWidget extends CompositeWidget implements HasClasses {
     }
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
 
         @Language("InjectedFreeMarker")
         String t = """

@@ -1,14 +1,11 @@
 package hr.ja.weboo.ui.widgets;
 
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.utils.QuteUtil;
-import hr.ja.weboo.utils.WebooUtil;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.ArrayUtils;
 import org.intellij.lang.annotations.Language;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
@@ -30,7 +27,7 @@ public class Link extends Widget implements HasClasses {
     }
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
         @Language("InjectedFreeMarker")
         String template = """
                 <a href="${url}" class='btn btn-link ${classes}' id='${widgetId}'>${label}</a>

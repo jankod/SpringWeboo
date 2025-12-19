@@ -1,16 +1,15 @@
 package hr.ja.weboo.ui.widgets;
 
-import hr.ja.weboo.ui.DefaultWidget;
-import hr.ja.weboo.utils.WebooUtil;
+import hr.ja.weboo.ui.WidgetWithAtributes;
+import hr.ja.weboo.ui.PageContext;
+import hr.ja.weboo.utils.QuteUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 //@Accessors()
-public class Button extends DefaultWidget implements HasClasses {
+public class Button extends WidgetWithAtributes implements HasClasses {
     private final String label;
 
     private Color color = Color.PRIMARY;
@@ -20,7 +19,7 @@ public class Button extends DefaultWidget implements HasClasses {
     }
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
         addClass("btn btn-" + color.toCssClass());
 
         String html = """
@@ -28,12 +27,12 @@ public class Button extends DefaultWidget implements HasClasses {
                     ${label}
                 </button>
                 """;
-        return WebooUtil.quteThis(html, this);
+        return QuteUtil.quteThis(html, this);
     }
 
     public static void main(String[] args) {
         Button button = new Button("Click Me");
         button.addClass("btn-lg");
-        System.out.println(button.toHtml());
+        System.out.println(button.toHtml(new PageContext()));
     }
 }

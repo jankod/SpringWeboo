@@ -1,6 +1,7 @@
 package hr.ja.weboo.utils;
 
 import hr.ja.weboo.ui.CompositeWidget;
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.ui.widgets.Widget;
 import lombok.Data;
 import org.intellij.lang.annotations.Language;
@@ -13,15 +14,17 @@ class QuteUtilTest {
 
     @Test
     void testBasicTemplate() {
-        String html = new TestBasicTemplateWidget().toHtml();
+        PageContext context = new PageContext();
+        String html = new TestBasicTemplateWidget().toHtml(context);
     }
 
     @Test
     void testChildrenWidget() {
+        PageContext context = new PageContext();
         MyCompositeWidget widget = new MyCompositeWidget();
         widget.add(new DemoWidget2());
         widget.add(new DemoWidget2());
-        String html = widget.toHtml();
+        String html = widget.toHtml(context);
         System.out.println(html);
     }
 }
@@ -30,7 +33,7 @@ class MyCompositeWidget extends CompositeWidget {
 
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
         String template = """
                 <div>MyCompositeWidget</div>
                 ${children}
@@ -56,7 +59,7 @@ class TestBasicTemplateWidget extends Widget {
     }
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
 
         @Language("InjectedFreeMarker") String template = """
                 <div>
@@ -84,7 +87,7 @@ class TestBasicTemplateWidget extends Widget {
 class DemoWidget2 extends Widget {
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
         return "<div>DemoWidget2</div>";
     }
 }

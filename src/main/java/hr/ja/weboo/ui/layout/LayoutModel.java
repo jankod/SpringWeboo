@@ -1,6 +1,6 @@
 package hr.ja.weboo.ui.layout;
 
-import hr.ja.weboo.ui.WebPageContext;
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.ui.widgets.Widget;
 
 public record LayoutModel(
@@ -10,5 +10,5 @@ public record LayoutModel(
       Widget bodyTopSlot,
       Widget bodyFooterSlot,
       String scriptCode,
-      WebPageContext context
+      PageContext context
   ) {}

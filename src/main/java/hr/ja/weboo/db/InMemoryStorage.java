@@ -120,7 +120,7 @@ public class InMemoryStorage {
                 // Oprez: Logika generiranja ID-a podržava samo Long
                 if (entity.getClass().getGenericInterfaces().length > 0 &&
                     entity.getClass().getGenericInterfaces()[0].getTypeName().contains("Long")) {
-                    entity.setId((Object) Long.valueOf(nextId(entity.getClass()))); // Generiraj i postavi ID
+                    entity.setId(nextId(entity.getClass())); // Generiraj i postavi ID
                 } else {
                     // Ovdje biste trebali proširiti logiku za druge tipove ID-a (UUID i sl.)
                     throw new UnsupportedOperationException("ID generation for Long only. Extend logic for other types.");

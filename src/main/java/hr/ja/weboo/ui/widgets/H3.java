@@ -2,7 +2,8 @@ package hr.ja.weboo.ui.widgets;
 
 
 import hr.ja.weboo.ui.CompositeWidget;
-import hr.ja.weboo.utils.WebooUtil;
+import hr.ja.weboo.ui.PageContext;
+import hr.ja.weboo.utils.QuteUtil;
 import lombok.Getter;
 
 @Getter
@@ -15,8 +16,8 @@ public class H3 extends CompositeWidget implements HasClasses {
     }
 
     @Override
-    public String toHtml() {
-        return WebooUtil.quteThis(
+    public String toHtml(PageContext context) {
+        return QuteUtil.quteThis(
                 """
                         <h3 id="${widgetId}" >
                             {this.text}
@@ -27,8 +28,9 @@ public class H3 extends CompositeWidget implements HasClasses {
     }
 
     public static void main(String[] args) {
+        PageContext context = new PageContext();
         H3 h3 = new H3("My H3");
         h3.add(new Div("Hello"));
-        System.out.println(h3.toHtml());
+        System.out.println(h3.toHtml(context));
     }
 }

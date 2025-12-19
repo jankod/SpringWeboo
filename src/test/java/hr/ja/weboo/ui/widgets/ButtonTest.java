@@ -1,5 +1,6 @@
 package hr.ja.weboo.ui.widgets;
 
+import hr.ja.weboo.ui.PageContext;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ class ButtonTest {
         button.setColor(PRIMARY);
         assertEquals(PRIMARY, button.getColor());
 
-        String html = button.toHtml();
+        String html = button.toHtml(new PageContext());
 
         assertTrue(html.contains("btn btn-primary"));
         log.debug("html:\n {}", html);

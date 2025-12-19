@@ -14,7 +14,7 @@ public class UserPage extends Page {
 
 
     @Override
-    protected void render(WebPageContext web) {
+    protected void render(PageContext web) {
         setTitle("User Page");
         add(new Button("Click Me"));
         add(new Link("Home Page", HomePage.URL));

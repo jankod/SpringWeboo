@@ -1,0 +1,51 @@
+Jednostavan web framework za brzi razvoj web aplikacija.
+Ciljevi:
+- brz razvoj
+- jednostavnost
+- testabilnost
+- modularnost
+- brzi prototipovi
+- lagano i brzo
+- minimalne ovisnosti
+- sve se pise u javi (bez XML, template)
+Tehnologije:
+- java 25
+- spring boot 4
+- htmx
+- spring mvc
+- quarkus qute za template (ili vlastiti string templating)
+
+Arhitektura:
+
+stateless, ne cuva se stanje
+    request-scoped context
+
+Page = controller + view model + business logic
+    Page je funkcionalna jedinica, Widget je samo render fragment.
+    Page = poslovna logika + orkestracija widgeta
+    Sadrzi widgete i postavlja layout
+    Page ima id generation i debug info
+    Page zna renderirati sebe koristeći Layout i Widgete
+
+Layout = renderira widgete u HTML stranicu
+    Layout je odgovoran za kompletan HTML dokument (head, body, script)
+    Page ne zna ništa o layoutu
+    implementacija ima vlastite widgete (menu, navbar) koje page moze mjeniti
+
+
+Widget = HTML/JS fragment
+   zna renderirati sebe u HTML
+   ne zna ništa o Page-u ili Layout-u
+   može imati vlastitu poslovnu logiku (akcije, evente)
+   lako se testira izolirano
+   Postoji CompositeWidget koji može sadržavati druge widgete
+   Widgeti su neovisni o Page-u i Layout-u
+   Widget ima id generation i debug info
+   Widget može dobiti WebPageContext za pristup requestu, modelu, i18n
+
+htmx za parcijalne updateove
+Spring binding za forme i akcije
+
+RequestContext
+   svaki request ima svoj context
+   sadrži request, response, session, request attributes, Csrf ???

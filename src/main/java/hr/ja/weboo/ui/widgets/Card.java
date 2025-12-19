@@ -1,8 +1,8 @@
 package hr.ja.weboo.ui.widgets;
 
 
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.utils.WebooUtil;
-import org.intellij.lang.annotations.Language;
 
 public class Card extends Widget {
     private final String title;
@@ -12,7 +12,7 @@ public class Card extends Widget {
     }
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
         String te = """
               <div  class="card {classes}" id='{id}'>
                    <script\s
@@ -34,6 +34,6 @@ public class Card extends Widget {
 
     public static void main(String[] args) {
         Card card = new Card("My Card");
-        System.out.println(card.toHtml());
+        System.out.println(card.toHtml(new PageContext()));
     }
 }

@@ -1,5 +1,6 @@
 package hr.ja.weboo.utils;
 
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.ui.widgets.Widget;
 import io.quarkus.qute.Expression;
 import io.quarkus.qute.ResultMapper;
@@ -16,6 +17,12 @@ public class QuteWidgetResultMapper implements ResultMapper {
     @Override
     public String map(Object result, Expression expression) {
         Widget w = (Widget) result;
-        return w.toHtml();
+        PageContext context;
+        try {
+            context = PageContext.getCurrentContext();
+        } catch (IllegalStateException ex) {
+            context = new PageContext();
+        }
+        return w.toHtml(context);
     }
 }

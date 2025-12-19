@@ -1,18 +1,31 @@
 package hr.ja.weboo.ui.layout;
 
 import hr.ja.weboo.ui.Page;
-import hr.ja.weboo.ui.WebPageContext;
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.utils.WebooUtil;
 
 import java.util.Map;
 
 public class BootstrapLayout implements Layout {
 
-    public String toHtml(WebPageContext context, Page page) {
-
-        String body = WebooUtil.widgetToHtml(page.getWidgets());
-
+    @Override
+    public LayoutModel createModel(PageContext context, Page page) {
+        String body = WebooUtil.widgetToHtml(context, page.getWidgets());
         String scriptCode = createScriptJsCode(page);
+        return new LayoutModel(page.getTitle(), body, null, null, null, scriptCode, context);
+    }
+
+    @Override
+    public String toHtml(LayoutModel model) {
+        return renderHtml(model.bodyHtml(), model.scriptCode(), model.title());
+    }
+
+    @Override
+    public String toHtml(PageContext context, Page page) {
+        return toHtml(createModel(context, page));
+    }
+
+    private String renderHtml(String body, String scriptCode, String title) {
 
         //language=HTML
         String html = """
@@ -37,7 +50,7 @@ public class BootstrapLayout implements Layout {
                     <script src="all.js"></script>
                 </body>
                 </html>""";
-        return WebooUtil.quteMap(html, Map.of("body", body, "title", page.getTitle(), "scriptCode", scriptCode));
+        return WebooUtil.quteMap(html, Map.of("body", body, "title", title, "scriptCode", scriptCode));
     }
 
 

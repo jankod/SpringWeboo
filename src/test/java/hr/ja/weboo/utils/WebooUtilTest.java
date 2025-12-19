@@ -1,5 +1,6 @@
 package hr.ja.weboo.utils;
 
+import hr.ja.weboo.ui.PageContext;
 import hr.ja.weboo.ui.widgets.Widget;
 import io.quarkus.qute.TemplateException;
 import lombok.Data;
@@ -53,7 +54,7 @@ class WebooUtilTest {
         }
 
         @Override
-        public String toHtml() {
+        public String toHtml(PageContext context) {
             return "<div>" + name + " " + name2 + "</div>";
         }
     }
@@ -61,13 +62,13 @@ class WebooUtilTest {
     @Test
     void testQuteThis() {
         SampleObject sampleObject = new SampleObject("World", "World2");
-        String result = WebooUtil.quteThis("Hello {this.name} {this.name2}", sampleObject);
+        String result = QuteUtil.quteThis("Hello {this.name} {this.name2}", sampleObject);
         assertEquals("Hello World World2", result);
 
 
         // test not existing field
         try {
-            String result2 = WebooUtil.quteThis("Hello {this.name} {this.name3}", sampleObject);
+            String result2 = QuteUtil.quteThis("Hello {this.name} {this.name3}", sampleObject);
             fail("Should throw exception, got: " + result2);
         } catch (Exception e) {
             log.debug("Expected exception: " + e.getMessage());

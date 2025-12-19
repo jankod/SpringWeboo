@@ -1,6 +1,6 @@
 package hr.ja.weboo.ui.widgets;
 
-import hr.ja.weboo.utils.WebooUtil;
+import hr.ja.weboo.ui.PageContext;
 
 public class Icon extends Widget {
 
@@ -24,7 +24,7 @@ public class Icon extends Widget {
     }
 
     @Override
-    public String toHtml() {
+    public String toHtml(PageContext context) {
         return """
                   <svg xmlns="http://www.w3.org/2000/svg"
                        width="%d" height="%d"
