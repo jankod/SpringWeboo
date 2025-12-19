@@ -1,5 +1,6 @@
 package hr.ja.weboo.ui.widgets;
 
+import hr.ja.weboo.ui.WebPageContext;
 import hr.ja.weboo.utils.CallerInfo;
 import hr.ja.weboo.utils.WebooUtil;
 import lombok.Getter;
@@ -29,10 +30,6 @@ public abstract class Widget {
         return widgetId();
     }
 
-    public abstract String toHtml();
-
-    public String toString() {
-        return toHtml();
-    }
+    public abstract String toHtml(WebPageContext context);
 
 }

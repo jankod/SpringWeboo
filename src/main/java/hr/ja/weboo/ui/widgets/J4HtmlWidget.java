@@ -18,7 +18,7 @@ public class J4HtmlWidget extends Widget {
     }
 
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         DivTag div = new DivTag();
         div.withClass("my-class");
         div.attr("data-attribute", "value");

@@ -272,9 +272,7 @@ public class WebooUtil {
         URL u = WebooUtil.class.getClassLoader().getResource(cn);
         log.debug(u.toString().replace(".class", ".java") + ":" + element.getLineNumber());
 
-
     }
-
 
     public static String createPageId() {
         return UUID.randomUUID().toString();

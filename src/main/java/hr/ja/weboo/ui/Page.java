@@ -1,6 +1,5 @@
 package hr.ja.weboo.ui;
 
-import hr.ja.weboo.ui.layout.BootstrapLayout;
 import hr.ja.weboo.ui.layout.Layout;
 import hr.ja.weboo.ui.layout.TablerLayout;
 import hr.ja.weboo.ui.widgets.J4HtmlWidget;
@@ -13,11 +12,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.web.servlet.View;
 
 import java.util.Map;
 
-
+/**
+ * Per request web page representation.
+ */
 @Slf4j
 @Data
 public abstract class Page implements View {
@@ -56,35 +58,38 @@ public abstract class Page implements View {
 
 
     @Override
-    public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+    public void render(Map<String, ?> model, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws Exception {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
         WebPageContext context = new WebPageContext();
+
         context.setModel(model);
         context.setRequest(request);
         context.setResponse(response);
+        try {
+            render(context);
 
-        render(context);
+            if (WebooUtil.isDebug()) {
 
-        if (WebooUtil.isDebug()) {
+                // add before and after widget html comment with widget id and name
+                for (Widget widget : widgets) {
 
-            // add before and after widget html comment with widget id and name
-            for (Widget widget : widgets) {
-
-                String comment = "<!-- " + widget.getClass().getSimpleName() + " id: " + widget.widgetId() + " --> ";
-                //   String html = pageWidgets.stream().map(Widget::toHtml).collect(Collectors.joining(comment));
+                    String comment = "<!-- " + widget.getClass().getSimpleName() + " id: " + widget.widgetId() + " --> ";
+                    //   String html = pageWidgets.stream().map(Widget::toHtml).collect(Collectors.joining(comment));
+                }
             }
+
+            if (layout == null) {
+                layout = new TablerLayout();
+            }
+
+            String html = layout.toHtml(context, this);
+
+            response.getWriter().write(html);
+        } finally {
+            WebPageContext.clearCurrentContext();
         }
-
-        if (layout == null) {
-            layout = new TablerLayout();
-        }
-
-        String html = layout.toHtml(context, this);
-
-        response.getWriter().write(html);
     }
 
     protected abstract void render(WebPageContext context);

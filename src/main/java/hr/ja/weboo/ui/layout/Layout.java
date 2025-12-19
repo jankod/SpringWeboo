@@ -9,6 +9,13 @@ import java.util.Objects;
 
 public interface Layout {
 
+     LayoutModel createModel(WebPageContext ctx, Page page);
+
+      String toHtml(LayoutModel model);
+
+      default String createScriptJsCode(LayoutModel model) { ... } // koristi model.bodyHtml ili model.context
+
+
     String toHtml(WebPageContext context, Page page);
 
     default String createScriptJsCode(Page page) {
