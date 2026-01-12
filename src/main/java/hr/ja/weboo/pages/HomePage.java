@@ -15,13 +15,10 @@ public class HomePage extends Page {
 
     public static final String URL = "/";
 
-    MyLayout myLayout = new MyLayout();
-
     @Override
     protected void render(PageContext context) {
         setTitle("Home Page");
-        setUpLayout();
-
+        setLayout(new MyLayout());
 
         add(new H3("Home Page"));
         add(new Link("User Page", UserPage.URL));
@@ -29,7 +26,4 @@ public class HomePage extends Page {
         add( AlertWidget.warning("Ovo je alter widget"));
     }
 
-    private void setUpLayout() {
-        setLayout(myLayout);
-    }
 }
