@@ -2,6 +2,8 @@ package hr.ja.weboo.ui.widgets;
 
 import hr.ja.weboo.ui.CompositeWidget;
 import hr.ja.weboo.ui.PageContext;
+import hr.ja.weboo.ui.RenderedContext;
+import hr.ja.weboo.utils.QuteUtil;
 import hr.ja.weboo.utils.WebooUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,13 +31,15 @@ public class SimpleTag extends CompositeWidget implements HasClasses {
     }
 
 
-
-    protected String renderChildren(PageContext context) {
-        StringBuilder sb = new StringBuilder();
+    protected void renderChildren(RenderedContext context) {
+//        StringBuilder sb = new StringBuilder();
+//        for (Widget child : getChildren()) {
+//            sb.append(child.render(context)).append("\n");
+//        }
+//        return sb.toString();
         for (Widget child : getChildren()) {
-            sb.append(child.toHtml(context)).append("\n");
+            child.render(context);
         }
-        return sb.toString();
     }
 
 
@@ -43,9 +47,9 @@ public class SimpleTag extends CompositeWidget implements HasClasses {
         final StringBuilder att = new StringBuilder();
         getAttributes().forEach((name, o) -> {
             //MessageFormat.format("sadas {1}", "");
-            String value = WebooUtil.escape(o.toString());
+            String value = WebooUtil.htmlEscape(o.toString());
             att.append("""
-                    %s="%s" """.formatted(name, value));
+                  %s="%s" """.formatted(name, value));
         });
         return att.toString();
     }
@@ -55,15 +59,15 @@ public class SimpleTag extends CompositeWidget implements HasClasses {
 
         @Language("HTML")
         String html = """
-                  <${tag} ${renderAttributes().raw} id="${widgetId}">
-                        ${text}
-                         {children.raw}
-                   </${tag}>
-                """;
+                <${tag} ${renderAttributes().raw} id="${widgetId}">
+                      ${text}
+                       {children.raw}
+                 </${tag}>
+              """;
 
-        return WebooUtil.quteMap(html, Map.of(
-                "this", this,
-                "children", renderChildren(context)
+        return QuteUtil.quteMap(html, Map.of(
+              "this", this,
+              "children", renderChildren(context)
         ));
     }
 
@@ -74,5 +78,18 @@ public class SimpleTag extends CompositeWidget implements HasClasses {
         tag.add(new H3("My H3"));
         tag.add(new H3("My H3 2"));
         System.out.println(tag.toHtml(new PageContext()));
+    }
+
+    @Override
+    public void render(RenderedContext context) {
+        @Language("InjectedFreeMarker") String html = """
+                <${tag} ${renderAttributes().raw} id="${widgetId}">
+                      ${text}
+                       {children.raw}
+                 </${tag}>
+              """;
+        context.qute(html, Map.of(
+              "this", this,
+              "children", renderChildren(context);
     }
 }

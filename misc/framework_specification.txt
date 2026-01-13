@@ -6,6 +6,8 @@ Ciljevi:
 - modularnost
 - brzi prototipovi
 - lagano i brzo
+
+
 - minimalne ovisnosti
 - sve se pise u javi (bez XML, template)
 Tehnologije:
@@ -49,3 +51,45 @@ Spring binding za forme i akcije
 RequestContext
    svaki request ima svoj context
    sadrži request, response, session, request attributes, Csrf ???
+
+
+
+------
+PREPORUKE
+
+  Findings
+
+  - High: TablerLayout template koristi {topBody()} bez podatka u modelu, a Qute je strict pa render puca na runtime; src/main/java/hr/ja/weboo/ui/layout/TablerLayout.java:69,
+  src/main/java/hr/ja/weboo/utils/QuteUtil.java:42.
+  - High: Entry point nije public, pa java -jar nece naci main metodu; src/main/java/hr/ja/weboo/App.java:11.
+  - Medium: appendId je no-op (modificira lokalni string i rezultat se ne koristi), pa widgeti bez vlastitog id ostaju bez ID-a;
+  src/main/java/hr/ja/weboo/utils/WebooUtil.java:287, src/main/java/hr/ja/weboo/utils/WebooUtil.java:297.
+
+  - Medium: PageContext ThreadLocal moze ostati postavljen jer ga helperi kreiraju bez clear, sto krsi "stateless" i moze curiti izmedju threadova/testova; src/main/java/hr/ja/weboo/utils/WidgetsLinkedList.java:13, src/main/java/hr/ja/
+    weboo/utils/QuteWidgetResultMapper.java:19, src/main/java/hr/ja/weboo/ui/PageContext.java:21.
+  - Medium: Spec kaze Page=controller i da Page ne zna layout, ali kod ima zaseban @Controller i Page eksplicitno drzi layout; misc/framework_specification.txt:25, misc/framework_specification.txt:34, src/main/java/hr/ja/weboo/pages/
+    HomeController.java:8, src/main/java/hr/ja/weboo/ui/Page.java:34.
+  - Medium: Spec trazi htmx + RequestContext (session/CSRF/i18n) + minimalne ovisnosti, ali layouti ne ukljucuju htmx, PageContext to nema, a CDN se koristi u BootstrapLayout; misc/framework_specification.txt:11, misc/
+    framework_specification.txt:16, misc/framework_specification.txt:51, src/main/java/hr/ja/weboo/ui/PageContext.java:17, src/main/java/hr/ja/weboo/ui/layout/TablerLayout.java:62, src/main/java/hr/ja/weboo/ui/layout/
+    BootstrapLayout.java:38.
+
+  Pitanja / pretpostavke
+
+  - Da li Page instance trebaju biti striktno per-request (ne Spring bean) ili zelis Page kao controller?
+  - Da li stvarno zelis izbjeci template engine ili je ok inline template u stringu?
+  - Zelis li zadrzati i Qute i j2html ili odabrati jednu strategiju templatinga?
+  - Da li ciljas Java 25 + Boot 4 za produkciju ili je ovo prvenstveno prototip?
+
+  Preporuke
+
+  - Uskladi spec i implementaciju oko Page/Layout odgovornosti (Page bira layout vs LayoutResolver/annotacija).
+  - Definiraj RequestContext (session, locale/i18n, CSRF) i ucini lifecycle eksplicitnim bez ThreadLocal curenja.
+  - Dodaj htmx podrsku: ukljuci skriptu u layout, helper za hx-*, i fragment render za HX-Request.
+  - Popravi runtime bugove: {topBody()} u TablerLayout, public static void main, i konzistentan id za widgete (ili ukloni appendId).
+  - Standardiziraj templating (jedan Qute engine ili j2html) i ispravi BootstrapLayout (dupli </head> i CDN ako zelis minimalne ovisnosti); src/main/java/hr/ja/weboo/ui/layout/BootstrapLayout.java:43.
+
+  Ako zelis, mogu:
+
+  1. napraviti patch za bugove (TablerLayout, main, appendId, ThreadLocal),
+  2. dodati htmx/fragment flow,
+  3. uskladiti spec i kod (LayoutResolver + RequestContext) i dodati testove.

@@ -14,7 +14,7 @@ public class WidgetWithAtributes extends Widget implements HasAttributes {
     private final Map<String, Object> attributes = new HashMap<>();
 
     @Override
-    public String toHtml(PageContext context) {
-        return "NOT IMPLEMENTED " + getClass().getName();
+    public void render(RenderedContext context) {
+        context.qute("NOT_IMPLEMENTED", this);
     }
 }

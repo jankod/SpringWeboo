@@ -15,7 +15,6 @@ public class Card extends Widget {
     public String toHtml(PageContext context) {
         String te = """
               <div  class="card {classes}" id='{id}'>
-                   <script\s
                   <div class='card-header'>
                       <h5 class="card-title">{title}</h5>
                   </div>

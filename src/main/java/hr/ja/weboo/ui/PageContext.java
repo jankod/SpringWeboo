@@ -13,42 +13,15 @@ import java.util.*;
 @Slf4j
 public class PageContext {
 
+    protected Map<String, ?> model;
+    protected HttpServletRequest request;
+    protected HttpServletResponse response;
 
-    private Map<String, ?> model;
-    private HttpServletRequest request;
-    private HttpServletResponse response;
-
-    private static final ThreadLocal<PageContext> currentContext = new ThreadLocal<>();
-
-    // Mapa za spremanje proizvoljnih podataka specifičnih za zahtjev
-    // koje možda želite dijeliti između faza renderiranja ili komponenti.
-    private final Map<String, Object> attributes = new HashMap<>();
-
-    private WidgetIdGenerator widgetIdGenerator;
+    protected final Map<String, Object> attributes = new HashMap<>();
 
     public PageContext() {
-      //  this.pageId = UUID.randomUUID().toString();
-        currentContext.set(this);
-        this.widgetIdGenerator = new WidgetIdGenerator();
     }
 
-    public String generateWidgetId(Class<? extends Widget> widgetClass) {
-        return widgetIdGenerator.next(widgetClass);
-    }
-
-
-
-    public static PageContext getCurrentContext() {
-        PageContext ctx = currentContext.get();
-        if (ctx == null) {
-            throw new IllegalStateException("WebPageContext not available in current thread.");
-        }
-        return ctx;
-    }
-
-    public static void clearCurrentContext() {
-        currentContext.remove();
-    }
 
 
 }

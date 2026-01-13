@@ -1,32 +1,16 @@
 package hr.ja.weboo.utils;
 
-import hr.ja.weboo.ui.HasHtml;
-import hr.ja.weboo.ui.PageContext;
+import hr.ja.weboo.ui.RenderedContext;
 import hr.ja.weboo.ui.widgets.Widget;
 
 import java.util.LinkedList;
-import java.util.stream.Collectors;
 
-public class WidgetsLinkedList extends LinkedList<Widget> implements HasHtml {
+public class WidgetsLinkedList extends LinkedList<Widget> {
 
-    @Override
-    public String toString() {
-        PageContext context;
-        try {
-            context = PageContext.getCurrentContext();
-        } catch (IllegalStateException ex) {
-            context = new PageContext();
+    public void render(RenderedContext context) {
+        for (Widget widget : this) {
+            widget.render(context);
         }
-        return toHtml(context);
     }
-
-
-    @Override
-    public String toHtml(PageContext context) {
-        return stream()
-              .map(widget -> widget.toHtml(context))
-              .collect(Collectors.joining("\n"));
-    }
-
 
 }

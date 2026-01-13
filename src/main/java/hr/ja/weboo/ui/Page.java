@@ -91,7 +91,6 @@ public abstract class Page implements View {
 
             response.getWriter().write(html);
         } finally {
-            PageContext.clearCurrentContext();
         }
     }
 

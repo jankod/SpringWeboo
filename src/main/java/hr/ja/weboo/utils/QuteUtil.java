@@ -1,5 +1,6 @@
 package hr.ja.weboo.utils;
 
+import hr.ja.weboo.ui.widgets.Widget;
 import io.quarkus.qute.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -14,10 +15,7 @@ import java.util.concurrent.CompletionStage;
 @Slf4j
 public class QuteUtil {
 
-    public static final String this_object_name = "this";
-
     private static final Engine engine;
-
 
     static {
         ReflectionValueResolver reflectionValueResolver = new ReflectionValueResolver();
@@ -42,7 +40,19 @@ public class QuteUtil {
         engine = builder
                 .strictRendering(true)
                 .addDefaultSectionHelpers()
-                .addResultMapper(new QuteWidgetResultMapper()) // Pretpostavljam da ova klasa postoji
+                .addResultMapper(new ResultMapper() {
+
+                    @Override
+                    public boolean appliesTo(TemplateNode.Origin origin, Object result) {
+                        return result instanceof Widget;
+                    }
+
+                    @Override
+                    public String map(Object result, Expression expression) {
+                        Widget widget = (Widget) result;
+
+                    }
+                }) // Pretpostavljam da ova klasa postoji
                 .addDefaultValueResolvers()
                 .addParserHook(new Qute.IndexedArgumentsParserHook())
                 .addResultMapper(new HtmlEscaper(ImmutableList.of("text/html"))) // Koristimo importan ImmutableList
@@ -87,11 +97,16 @@ public class QuteUtil {
             return "Error: Qute engine not initialized"; // Ili baciti iznimku
         }
         try {
-            Template parsedTemplate = engine.parse(template);
+
+            // TODO: put in static initialization
+            Variant variant = Variant.forContentType(Variant.TEXT_HTML);
+
+            Template parsedTemplate = engine.parse(template, variant);
+
             TemplateInstance instance = parsedTemplate.instance();
             map.forEach(instance::data);
-            instance.setAttribute(TemplateInstance.VARIANTS,
-                    Collections.singletonList(Variant.forContentType(Variant.TEXT_HTML)));
+//            instance.setAttribute(TemplateInstance.VARIANTS,
+//                    Collections.singletonList(variant));
             return instance.render();
         } catch (TemplateException e) {
             String templateWithLineNumbers = addLineNumbers(template);
@@ -115,11 +130,8 @@ public class QuteUtil {
      * @return Renderirani HTML.
      */
     public static String quteThis(String template, Object thisObject) {
-        if (engine == null) {
-            log.error("Qute engine not initialized");
-            return "Error: Qute engine not initialized";
-        }
         try {
+            // TODO: cache Template (not TemplateInstance) by Widget class name or template string hash
             Template parsedTemplate = engine.parse(template);
             TemplateInstance instance = parsedTemplate.instance();
             // Set thisObject as the root data object

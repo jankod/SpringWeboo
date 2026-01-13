@@ -3,11 +3,7 @@ package hr.ja.weboo.db;
 import jakarta.validation.*;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -91,7 +87,7 @@ public class InMemoryStorage {
 
     static <T extends InMemoryEntity<ID>, ID> List<T> listAll(Class<T> entityClass) {
         Map<ID, T> map = getMap(entityClass);
-        return map.values().stream().collect(Collectors.toList());
+        return new ArrayList<>(map.values());
     }
 
     // Metoda za brisanje SVIH podataka (za resetiranje prototipa)

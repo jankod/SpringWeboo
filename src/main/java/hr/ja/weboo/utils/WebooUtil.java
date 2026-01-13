@@ -123,48 +123,48 @@ public class WebooUtil {
         return aClass.getSimpleName() + "_" + handlerIdCounter++;
     }
 
-    public static String escape(String text) {
-        //   return StringEscapeUtils.escapeHtml4(text);
-        return HtmlUtils.htmlEscape(text);
-    }
+//    public static String escape(String text) {
+//        //   return StringEscapeUtils.escapeHtml4(text);
+//        return HtmlUtils.htmlEscape(text);
+//    }
 
 
-    public static String quteKeyValue(String template, Object... keyValues) {
-        if (keyValues.length % 2 != 0) {
-            throw new IllegalArgumentException("Number of arguments must be even (key-value pairs)");
-        }
-
-        Map<String, Object> dataMap = new HashMap<>();
-        for (int i = 0; i < keyValues.length; i += 2) {
-            if (!(keyValues[i] instanceof String key)) {
-                throw new IllegalArgumentException("Ključ mora biti tipa String");
-            }
-            Object value = keyValues[i + 1];
-            dataMap.put(key, value);
-        }
-        return quteMap(template, dataMap);
-
-
-    }
-
-    public static String quteMap(String template, Map<String, Object> map) {
-        Qute.Fmt fmt = Qute.fmt(template);
-        fmt.variant(Variant.forContentType(Variant.TEXT_HTML));
-        try {
-            return fmt.dataMap(map).render();
-        } catch (TemplateException e) {
-            String templateWithLineNumbers = addLineNumbers(template);
-            TemplateException cause = e;
-            if (ExceptionUtils.hasCause(e, TemplateException.class)) {
-                if (e.getCause() != null)
-                    cause = (TemplateException) e.getCause();
-            }
-            log.debug("Error " + cause.getMessage() + " ");
-            log.debug(templateWithLineNumbers);
-            ExceptionUtils.rethrow(e);
-        }
-        return template;
-    }
+//    public static String quteKeyValue(String template, Object... keyValues) {
+//        if (keyValues.length % 2 != 0) {
+//            throw new IllegalArgumentException("Number of arguments must be even (key-value pairs)");
+//        }
+//
+//        Map<String, Object> dataMap = new HashMap<>();
+//        for (int i = 0; i < keyValues.length; i += 2) {
+//            if (!(keyValues[i] instanceof String key)) {
+//                throw new IllegalArgumentException("Ključ mora biti tipa String");
+//            }
+//            Object value = keyValues[i + 1];
+//            dataMap.put(key, value);
+//        }
+//        return quteMap(template, dataMap);
+//
+//
+//    }
+//
+//    public static String quteMap(String template, Map<String, Object> map) {
+//        Qute.Fmt fmt = Qute.fmt(template);
+//        fmt.variant(Variant.forContentType(Variant.TEXT_HTML));
+//        try {
+//            return fmt.dataMap(map).render();
+//        } catch (TemplateException e) {
+//            String templateWithLineNumbers = addLineNumbers(template);
+//            TemplateException cause = e;
+//            if (ExceptionUtils.hasCause(e, TemplateException.class)) {
+//                if (e.getCause() != null)
+//                    cause = (TemplateException) e.getCause();
+//            }
+//            log.debug("Error " + cause.getMessage() + " ");
+//            log.debug(templateWithLineNumbers);
+//            ExceptionUtils.rethrow(e);
+//        }
+//        return template;
+//    }
 
     private static String addLineNumbers(String template) {
         String[] lines = template.split("\n");
@@ -236,8 +236,8 @@ public class WebooUtil {
     }
 
 
-    public static String wigetNewId(Class<? extends Widget> aClass) {
-        return PageContext.getCurrentContext().generateWidgetId(aClass);
+    public static String wigetNewId(Class<? extends Widget> aClass, PageContext context) {
+        return context.generateWidgetId(aClass);
 //        AtomicLong counter = widgetCounters.computeIfAbsent(aClass, key -> new AtomicLong());
 //        long next = counter.incrementAndGet();
 //        return aClass.getSimpleName() + "_" + next;
@@ -282,7 +282,7 @@ public class WebooUtil {
                 String comment = "<!-- " + widget.getClass().getSimpleName() + " id: " + widget.widgetId() + " --> ";
                 html.append(comment).append("\n");
             }
-            String widgetHtml = widget.toHtml(effectiveContext);
+            String widgetHtml = widget.render(effectiveContext);
 
             appendId(widgetHtml, widget.widgetId());
 

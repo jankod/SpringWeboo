@@ -2,6 +2,7 @@ package hr.ja.weboo.ui.layout;
 
 import hr.ja.weboo.ui.Page;
 import hr.ja.weboo.ui.PageContext;
+import hr.ja.weboo.ui.widgets.HtmlWidget;
 import hr.ja.weboo.ui.widgets.Widget;
 import hr.ja.weboo.utils.QuteUtil;
 import hr.ja.weboo.utils.WebooUtil;
@@ -87,6 +88,6 @@ public class TablerLayout implements Layout {
     }
 
     public Widget topBody( ) {
-        return null;
+        return new HtmlWidget("");
     }
 }

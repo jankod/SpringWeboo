@@ -1,12 +1,15 @@
 package hr.ja.weboo.utils;
 
-import hr.ja.weboo.ui.PageContext;
+import hr.ja.weboo.ui.RenderedContext;
+import hr.ja.weboo.ui.WidgetRenderer;
 import hr.ja.weboo.ui.widgets.Widget;
 import io.quarkus.qute.Expression;
 import io.quarkus.qute.ResultMapper;
 import io.quarkus.qute.TemplateNode;
 
-public class QuteWidgetResultMapper implements ResultMapper {
+import java.util.Locale;
+
+public abstract class QuteWidgetResultMapper implements ResultMapper {
 
 
     @Override
@@ -14,15 +17,5 @@ public class QuteWidgetResultMapper implements ResultMapper {
         return result instanceof Widget;
     }
 
-    @Override
-    public String map(Object result, Expression expression) {
-        Widget w = (Widget) result;
-        PageContext context;
-        try {
-            context = PageContext.getCurrentContext();
-        } catch (IllegalStateException ex) {
-            context = new PageContext();
-        }
-        return w.toHtml(context);
-    }
+    public abstract String map(Object result, Expression expression);
 }

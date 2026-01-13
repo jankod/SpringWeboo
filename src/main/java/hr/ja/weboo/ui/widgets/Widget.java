@@ -1,6 +1,6 @@
 package hr.ja.weboo.ui.widgets;
 
-import hr.ja.weboo.ui.PageContext;
+import hr.ja.weboo.ui.RenderedContext;
 import hr.ja.weboo.utils.CallerInfo;
 import hr.ja.weboo.utils.WebooUtil;
 import lombok.Getter;
@@ -9,25 +9,23 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
+
 public abstract class Widget {
 
+    @Getter
+    @Setter
     private String widgetId = null;
 
     @Getter
     @Setter
     private CallerInfo debugCallerInfo;
 
-    public String widgetId() {
-        if (widgetId == null) {
-            widgetId = WebooUtil.wigetNewId(this.getClass());
-        }
-        return widgetId;
-    }
 
-    public String getWidgetId() {
-        return widgetId();
-    }
+    public abstract void render(RenderedContext context);
 
-    public abstract String toHtml(PageContext context);
+    public void qute(RenderedContext context) {
+
+    }
 
 }
+

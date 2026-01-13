@@ -2,6 +2,7 @@ package hr.ja.weboo.ui.widgets;
 
 
 import hr.ja.weboo.ui.PageContext;
+import hr.ja.weboo.ui.RenderedContext;
 import hr.ja.weboo.utils.WebooUtil;
 
 import java.util.ArrayList;
@@ -26,32 +27,36 @@ public class SimpleTable<M> extends Widget {
     }
 
     @Override
-    public String toHtml(PageContext context) {
-
+    public void render(RenderedContext context) {
 
         String template = """
-                <table {attr.raw} class="table">
-                   <thead>
-                       <tr>
-                        {#for c in columns}
-                          <th>{c.name}</th>
+              <table {attr.raw} class="table">
+                 <thead>
+                     <tr>
+                      {#for c in columns}
+                        <th>{c.name}</th>
+                      {/for}
+                     </tr>
+                     <tbody>
+                        {#for d in data}
+                         <tr>
+                         {#for c in columns}
+                           <td>{c.columnValue.render(d)}</td>
+                           {/for}
+                         </tr>
                         {/for}
-                       </tr>
-                       <tbody>
-                          {#for d in data}
-                           <tr>
-                           {#for c in columns}
-                             <td>{c.columnValue.render(d)}</td>
-                             {/for}
-                           </tr>
-                          {/for}
-                     </thead>
-                </table>
-                """;
+                   </thead>
+              </table>
+              """;
 
-        return WebooUtil.quteMap(template, Map.of(
-                "columns", columns,
-                "data", data
+//        return WebooUtil.quteMap(template, Map.of(
+//              "columns", columns,
+//              "data", data
+//        ));
+
+        context.qute(template, Map.of(
+              "columns", columns,
+              "data", data
         ));
     }
 }
